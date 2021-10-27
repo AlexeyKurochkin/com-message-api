@@ -1,6 +1,9 @@
-module github.com/ozonmp/omp-template-api
+module github.com/ozonmp/com-message-api
 
-go 1.16
+go 1.17
+
+
+require github.com/gammazero/deque v0.1.0 // indirect
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
@@ -19,8 +22,12 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	google.golang.org/grpc v1.41.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	github.com/gammazero/workerpool v1.1.2 // indirect
+	github.com/gammazero/workerpool v1.1.2
+	github.com/davecgh/go-spew v1.1.0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/objx v0.1.0 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
 )
 
 replace github.com/ozonmp/omp-template-api/pkg/omp-template-api => ./pkg/omp-template-api

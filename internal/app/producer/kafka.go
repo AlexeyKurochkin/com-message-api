@@ -1,72 +1,59 @@
 package producer
 
 import (
-	"sync"
-	"time"
-
-	"github.com/ozonmp/omp-demo-api/internal/app/sender"
-	"github.com/ozonmp/omp-demo-api/internal/model"
-
+	"context"
 	"github.com/gammazero/workerpool"
+	"github.com/ozonmp/com-message-api/internal/app/repo"
+	"github.com/ozonmp/com-message-api/internal/app/sender"
+	"github.com/ozonmp/com-message-api/internal/model"
+	"log"
+	"sync"
 )
 
 type Producer interface {
-	Start()
+	Start(ctx context.Context)
 	Close()
 }
 
 type producer struct {
-	n       uint64
-	timeout time.Duration
-
-	sender sender.EventSender
-	events <-chan model.SubdomainEvent
-
-	workerPool *workerpool.WorkerPool
-
-	wg   *sync.WaitGroup
-	done chan bool
+	producerCount uint64
+	sender        sender.EventSender
+	events        <-chan model.MessageEvent
+	workerPool    *workerpool.WorkerPool
+	repo          repo.EventRepo
+	wg            *sync.WaitGroup
 }
 
-// todo for students: add repo
-func NewKafkaProducer(
-	n uint64,
-	sender sender.EventSender,
-	events <-chan model.SubdomainEvent,
-	workerPool *workerpool.WorkerPool,
-) Producer {
+type Config struct {
+	ProducerCount uint64
+	Sender        sender.EventSender
+	Events        <-chan model.MessageEvent
+	WorkerPool    *workerpool.WorkerPool
+	Repo          repo.EventRepo
+}
 
+func NewKafkaProducer(config Config) Producer {
 	wg := &sync.WaitGroup{}
-	done := make(chan bool)
-
 	return &producer{
-		n:          n,
-		sender:     sender,
-		events:     events,
-		workerPool: workerPool,
-		wg:         wg,
-		done:       done,
+		producerCount: config.ProducerCount,
+		sender:        config.Sender,
+		events:        config.Events,
+		workerPool:    config.WorkerPool,
+		repo:          config.Repo,
+		wg:            wg,
 	}
 }
 
-func (p *producer) Start() {
-	for i := uint64(0); i < p.n; i++ {
+func (p *producer) Start(ctx context.Context) {
+	for i := uint64(0); i < p.producerCount; i++ {
 		p.wg.Add(1)
 		go func() {
 			defer p.wg.Done()
 			for {
 				select {
 				case event := <-p.events:
-					if err := p.sender.Send(&event); err != nil {
-						p.workerPool.Submit(func() {
-							// ...
-						})
-					} else {
-						p.workerPool.Submit(func() {
-							// ...
-						})
-					}
-				case <-p.done:
+					processEvent(p, event)
+				case <-ctx.Done():
 					return
 				}
 			}
@@ -75,6 +62,44 @@ func (p *producer) Start() {
 }
 
 func (p *producer) Close() {
-	close(p.done)
 	p.wg.Wait()
+}
+
+func processEvent(p *producer, event model.MessageEvent) {
+	if error := p.sender.Send(&event); error != nil {
+		processUnsuccessfulSending(p, event)
+	} else {
+		processSuccessfulSending(p, event)
+	}
+}
+
+func processUnsuccessfulSending(p *producer, event model.MessageEvent) {
+	log.Printf("Error sending event to kafka:\n%v", event)
+	tryUnlockEvent(p, event)
+}
+
+func tryUnlockEvent(p *producer, event model.MessageEvent) {
+	p.workerPool.Submit(func() {
+		log.Println("Trying unlock event...")
+		if err := p.repo.Unlock([]uint64{event.ID}); err != nil {
+			log.Printf("Error unlocking event:\n%v", event)
+		} else {
+			log.Printf("Successfully unlocked event:\n%v", event)
+		}
+	})
+}
+
+func processSuccessfulSending(p *producer, event model.MessageEvent) {
+	log.Printf("Successfully sent event to kafka:\n%v", event)
+	tryRemoveEvent(p, event)
+}
+
+func tryRemoveEvent(p *producer, event model.MessageEvent) {
+	p.workerPool.Submit(func() {
+		if err := p.repo.Remove([]uint64{event.ID}); err != nil {
+			log.Printf("Error removing event:\n%v", event)
+		} else {
+			log.Printf("Successfully removed event:\n%v", event)
+		}
+	})
 }
