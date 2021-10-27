@@ -1,62 +1,50 @@
 package consumer
 
 import (
+	"github.com/ozonmp/com-message-api/internal/app/repo"
+	"github.com/ozonmp/com-message-api/internal/model"
+	"context"
+	"log"
 	"sync"
 	"time"
-
-	"github.com/ozonmp/omp-demo-api/internal/app/repo"
-	"github.com/ozonmp/omp-demo-api/internal/model"
 )
 
 type Consumer interface {
-	Start()
+	Start(ctx context.Context)
 	Close()
 }
 
 type consumer struct {
-	n      uint64
-	events chan<- model.SubdomainEvent
-
-	repo repo.EventRepo
-
-	batchSize uint64
-	timeout   time.Duration
-
-	done chan bool
-	wg   *sync.WaitGroup
+	consumerCount uint64
+	batchSize     uint64
+	timeout       time.Duration
+	events        chan<- model.MessageEvent
+	repo          repo.EventRepo
+	wg            *sync.WaitGroup
 }
 
 type Config struct {
-	n         uint64
-	events    chan<- model.SubdomainEvent
-	repo      repo.EventRepo
-	batchSize uint64
-	timeout   time.Duration
+	ConsumerCount uint64
+	BatchSize     uint64
+	Timeout       time.Duration
+	Events        chan<- model.MessageEvent
+	Repo          repo.EventRepo
 }
 
-func NewDbConsumer(
-	n uint64,
-	batchSize uint64,
-	consumeTimeout time.Duration,
-	repo repo.EventRepo,
-	events chan<- model.SubdomainEvent) Consumer {
-
+func NewDbConsumer(config Config) Consumer {
 	wg := &sync.WaitGroup{}
-	done := make(chan bool)
-
 	return &consumer{
-		n:         n,
-		batchSize: batchSize,
-		timeout:   consumeTimeout,
-		repo:      repo,
-		events:    events,
-		wg:        wg,
-		done:      done,
+		consumerCount: config.ConsumerCount,
+		batchSize:     config.BatchSize,
+		timeout:       config.Timeout,
+		events:        config.Events,
+		repo:          config.Repo,
+		wg:            wg,
 	}
 }
 
-func (c *consumer) Start() {
-	for i := uint64(0); i < c.n; i++ {
+func (c *consumer) Start(ctx context.Context) {
+	for i := uint64(0); i < c.consumerCount; i++ {
 		c.wg.Add(1)
 
 		go func() {
@@ -67,12 +55,13 @@ func (c *consumer) Start() {
 				case <-ticker.C:
 					events, err := c.repo.Lock(c.batchSize)
 					if err != nil {
+						log.Printf("Error locking events: %v", err)
 						continue
 					}
 					for _, event := range events {
 						c.events <- event
 					}
-				case <-c.done:
+				case <-ctx.Done():
 					return
 				}
 			}
@@ -81,6 +70,6 @@ func (c *consumer) Start() {
 }
 
 func (c *consumer) Close() {
-	close(c.done)
 	c.wg.Wait()
+	close(c.events)
 }

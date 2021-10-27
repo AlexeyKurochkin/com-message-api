@@ -1,6 +1,8 @@
 package model
 
-type Subdomain struct {
+import "fmt"
+
+type Message struct {
 	ID uint64
 }
 
@@ -17,9 +19,16 @@ const (
 	Processed
 )
 
-type SubdomainEvent struct {
+type MessageEvent struct {
 	ID     uint64
 	Type   EventType
 	Status EventStatus
-	Entity *Subdomain
+	Entity *Message
 }
+
+func (m MessageEvent) String() string {
+	return fmt.Sprintf("EventId: %v\nEntityId: %v", m.ID, m.Entity.ID)
+}
+
+
+
