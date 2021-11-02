@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ozonmp.com_message_api.v1;
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/ozonmp/com-message-api/pkg/com-message-api;com_message_api";
+
+// ComMessageApiService - Service for working with messages
+service ComMessageApiService {
+  // DescribeMessageV1 - Describe a message
+  rpc DescribeMessageV1(DescribeMessageV1Request) returns (DescribeMessageV1Response) {
+    option (google.api.http) = {
+      get: "/v1/messages/{message_id}"
+    };
+  }
+}
+
+message Message {
+  uint64 id  = 1;
+  uint64 foo = 2;
+  google.protobuf.Timestamp created = 3;
+}
+
+message DescribeMessageV1Request {
+  uint64 message_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message DescribeMessageV1Response {
+  Message value = 1;
+}
