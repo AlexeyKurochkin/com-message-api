@@ -10,18 +10,53 @@ option go_package = "github.com/ozonmp/com-message-api/pkg/com-message-api;com_m
 
 // ComMessageApiService - Service for working with messages
 service ComMessageApiService {
+  // CreateMessageV1 - Create a message
+  rpc CreateMessageV1(CreateMessageV1Request) returns (CreateMessageV1Response) {
+    option (google.api.http) = {
+      post: "/v1/messages/create"
+      body: "*"
+    };
+  }
+
   // DescribeMessageV1 - Describe a message
   rpc DescribeMessageV1(DescribeMessageV1Request) returns (DescribeMessageV1Response) {
     option (google.api.http) = {
-      get: "/v1/messages/{message_id}"
+      get: "/v1/messages/describe/{message_id}"
+    };
+  }
+
+  // ListMessageV1 - List a messages
+  rpc ListMessageV1(ListMessageV1Request) returns (ListMessageV1Response) {
+    option (google.api.http) = {
+      get: "/v1/messages/list"
+    };
+  }
+
+  // RemoveMessageV1 - Describe a message
+  rpc RemoveMessageV1(RemoveMessageV1Request) returns (RemoveMessageV1Response) {
+    option (google.api.http) = {
+      get: "/v1/messages/remove/{message_id}"
     };
   }
 }
 
 message Message {
-  uint64 id  = 1;
-  uint64 foo = 2;
-  google.protobuf.Timestamp created = 3;
+  uint64 id = 1;
+  string from = 2;
+  string to = 3;
+  string text = 4;
+  google.protobuf.Timestamp datetime = 5;
+}
+
+message CreateMessageV1Request {
+  string from = 1 [(validate.rules).string.min_len = 1];
+  string to = 2 [(validate.rules).string.min_len = 1];
+  string text = 3;
+  google.protobuf.Timestamp datetime = 4 [(validate.rules).timestamp.required = true];
+}
+
+message CreateMessageV1Response {
+  Message value = 1;
 }
 
 message DescribeMessageV1Request {
@@ -30,4 +65,19 @@ message DescribeMessageV1Request {
 
 message DescribeMessageV1Response {
   Message value = 1;
+}
+
+message ListMessageV1Request {
+}
+
+message ListMessageV1Response {
+  repeated Message value = 1;
+}
+
+message RemoveMessageV1Request {
+  uint64 message_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message RemoveMessageV1Response {
+  bool result = 1;
 }
