@@ -1,14 +1,15 @@
 package consumer
 
 import (
+	"context"
 	"github.com/ozonmp/com-message-api/internal/app/repo"
 	"github.com/ozonmp/com-message-api/internal/model"
-	"context"
 	"log"
 	"sync"
 	"time"
 )
 
+//Consumer interface
 type Consumer interface {
 	Start(ctx context.Context)
 	Close()
@@ -23,6 +24,7 @@ type consumer struct {
 	wg            *sync.WaitGroup
 }
 
+//Config for consumer
 type Config struct {
 	ConsumerCount uint64
 	BatchSize     uint64
@@ -31,6 +33,7 @@ type Config struct {
 	Repo          repo.EventRepo
 }
 
+//NewDbConsumer constructor for consumer
 func NewDbConsumer(config Config) Consumer {
 	wg := &sync.WaitGroup{}
 	return &consumer{

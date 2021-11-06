@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//Message type
 type Message struct {
 	ID       uint64    `db:"id"`
 	From     string    `db:"from"`
@@ -13,10 +14,13 @@ type Message struct {
 	Datetime time.Time `db:"datetime"`
 }
 
+//EventType
 type EventType uint8
 
+//EventStatus
 type EventStatus uint8
 
+//EventType enum
 const (
 	Created EventType = iota
 	Updated
@@ -26,6 +30,7 @@ const (
 	Processed
 )
 
+//MessageEvent type
 type MessageEvent struct {
 	ID     uint64
 	Type   EventType
