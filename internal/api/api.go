@@ -40,7 +40,7 @@ func (o *messageAPI) CreateMessageV1(
 ) (*pb.CreateMessageV1Response, error) {
 
 	if err := req.Validate(); err != nil {
-		log.Error().Err(err).Msg("DescribeMessageV1 - invalid argument")
+		log.Error().Err(err).Msg("CreateMessageV1 - invalid argument")
 
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
@@ -52,7 +52,7 @@ func (o *messageAPI) CreateMessageV1(
 		Datetime: req.GetDatetime().AsTime(),
 	}
 
-	newId, err := o.repo.CreateMessage(ctx, message)
+	newID, err := o.repo.CreateMessage(ctx, message)
 	if err != nil {
 		log.Error().Err(err).Msg("CreateMessageV1 -- failed")
 
@@ -61,7 +61,7 @@ func (o *messageAPI) CreateMessageV1(
 
 	log.Debug().Msg("CreateMessageV1 - success")
 
-	message.ID = newId
+	message.ID = newID
 	return &pb.CreateMessageV1Response{
 		Value: convertMessageToPbModel(message),
 	}, nil
