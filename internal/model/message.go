@@ -14,10 +14,10 @@ type Message struct {
 	Datetime time.Time `db:"datetime"`
 }
 
-//EventType
+//EventType type of message event
 type EventType uint8
 
-//EventStatus
+//EventStatus status of message event
 type EventStatus uint8
 
 //EventType enum
