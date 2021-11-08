@@ -10,6 +10,7 @@ import (
 	"sync"
 )
 
+//Producer interface
 type Producer interface {
 	Start(ctx context.Context)
 	Close()
@@ -24,6 +25,7 @@ type producer struct {
 	wg            *sync.WaitGroup
 }
 
+// Config for Producer
 type Config struct {
 	ProducerCount uint64
 	Sender        sender.EventSender
@@ -32,6 +34,7 @@ type Config struct {
 	Repo          repo.EventRepo
 }
 
+// NewKafkaProducer constructor for producer
 func NewKafkaProducer(config Config) Producer {
 	wg := &sync.WaitGroup{}
 	return &producer{

@@ -11,11 +11,13 @@ import (
 	"time"
 )
 
+//Retranslator interface
 type Retranslator interface {
 	Start(ctx context.Context)
 	Close()
 }
 
+//Config for retranslator
 type Config struct {
 	ConsumerCount  uint64
 	ConsumeSize    uint64
@@ -34,6 +36,7 @@ type retranslator struct {
 	workerPool *workerpool.WorkerPool
 }
 
+//NewRetranslator constructor for retranslator
 func NewRetranslator(cfg Config) Retranslator {
 	events := make(chan model.MessageEvent, cfg.ChannelSize)
 	workerPool := workerpool.New(cfg.WorkerCount)

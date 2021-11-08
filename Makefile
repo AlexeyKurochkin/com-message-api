@@ -94,3 +94,11 @@ build-go: generate-go .build
 			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
 		" \
 		-o ./bin/grpc-server$(shell go env GOEXE) ./cmd/grpc-server/main.go
+
+.PHONY: compose-no-deps
+compose-no-deps:
+	sudo docker-compose up -d --no-deps com-message-api
+
+.PHONY: compose-no-deps-rebuild
+compose-no-deps-rebuild:
+	sudo docker-compose up -d --no-deps --build com-message-api
