@@ -8,7 +8,7 @@ GRPS_METHOD="ozonmp.com_message_api.v1.ComMessageApiService.DescribeMessageV1"
 payload=$(
   cat <<EOF
 {
-  "message_id": 123
+  "message_id": 1
 }
 EOF
 )
