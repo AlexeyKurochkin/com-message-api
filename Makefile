@@ -53,7 +53,7 @@ generate-go: .generate-install-buf .generate-go .generate-finalize-go
 	$(BUF_EXE) generate
 
 .generate-python:
-	$(BUF_EXE) generate --message buf.gen.python.yaml
+	$(BUF_EXE) generate --template buf.gen.python.yaml
 
 .generate-finalize-go:
 	mv pkg/$(SERVICE_NAME)/github.com/$(SERVICE_PATH)/pkg/$(SERVICE_NAME)/* pkg/$(SERVICE_NAME)
@@ -78,7 +78,7 @@ deps-go:
 	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@latest
 
 .deps-python:
-	python -m pip install grpcio-tools grpclib protobuf
+	python3 -m pip install grpcio-tools grpclib protobuf
 
 .PHONY: build
 build: generate .build
