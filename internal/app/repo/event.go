@@ -25,6 +25,7 @@ type EventRepo interface {
 	Add(event model.MessageEvent) error
 }
 
+//NewEventRepo constructor for EventRepo
 func NewEventRepo(db *sqlx.DB) EventRepo {
 	return &repo{db: db}
 }

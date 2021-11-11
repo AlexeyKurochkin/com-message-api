@@ -128,7 +128,8 @@ func (o *messageAPI) ListMessageV1(
 
 	pbMessages := make([]*pb.Message, 0, len(messages))
 	for _, message := range messages {
-		pbMessages = append(pbMessages, convertMessageToPbModel(&message))
+		currentMessage := message
+		pbMessages = append(pbMessages, convertMessageToPbModel(&currentMessage))
 	}
 
 	return &pb.ListMessageV1Response{
