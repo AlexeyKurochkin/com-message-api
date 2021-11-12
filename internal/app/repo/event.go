@@ -5,6 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/ozonmp/com-message-api/internal/model"
 	pb "github.com/ozonmp/com-message-api/pkg/com-message-api"
+	"github.com/pkg/errors"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
@@ -40,13 +41,13 @@ func (r *repo) Lock(n uint64) ([]model.MessageEvent, error) {
 		OrderBy("id ASC").ToSql()
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on creating lock sql query")
 	}
 
 	var messagesEvents []model.MessageEvent
 	err = r.db.Select(messagesEvents, query, args...)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on executing lock query")
 	}
 
 	ids := getEventIds(messagesEvents)
@@ -54,15 +55,15 @@ func (r *repo) Lock(n uint64) ([]model.MessageEvent, error) {
 		Set("status", lockedStatus).
 		Where(sq.Eq{"id": ids}).ToSql()
 	if updateErr != nil {
-		return nil, updateErr
+		return nil, errors.Wrap(updateErr, "Error on creating sql update query for locked items statuses")
 	}
 
 	_, updateErr = r.db.Exec(updateQuery, updateArgs...)
 	if updateErr != nil {
-		return nil, updateErr
+		return nil, errors.Wrap(updateErr, "Error on executing update sql query")
 	}
 
-	return messagesEvents, err
+	return messagesEvents, nil
 }
 
 func (r *repo) Unlock(eventIDs []uint64) error {
@@ -70,12 +71,12 @@ func (r *repo) Unlock(eventIDs []uint64) error {
 		Set("status", unlockedStatus).
 		Where(sq.Eq{"id": eventIDs}).ToSql()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on creating unlock sql query")
 	}
 
 	_, err = r.db.Exec(query, args...)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on executing unlock sql query")
 	}
 
 	return nil
@@ -85,12 +86,12 @@ func (r *repo) Remove(eventIDs []uint64) error {
 	query, args, err := psql.Delete("messages_events").
 		Where(sq.Eq{"id": eventIDs}).ToSql()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on creating remove query")
 	}
 
 	_, err = r.db.Exec(query, args...)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on executing remove query")
 	}
 	return nil
 }
@@ -115,19 +116,19 @@ func (r *repo) Add(event model.MessageEvent) error {
 
 	var payload, err = protojson.Marshal(pbMessage)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on marshalling proto message into json")
 	}
 
 	query, args, insertErr := psql.Insert("messages_events").
 		Columns("message_id", "type", "status", "payload", "updated").
 		Values(event.ID, event.Type, event.Status, payload, time.Now()).ToSql()
 	if insertErr != nil {
-		return err
+		return errors.Wrap(insertErr, "Error on creating sql query for adding messages")
 	}
 
 	_, err = r.db.Exec(query, args...)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Error on executing query for adding messages")
 	}
 	return nil
 }

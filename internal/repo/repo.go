@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"github.com/pkg/errors"
 
 	"github.com/jmoiron/sqlx"
 
@@ -37,13 +38,13 @@ func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint6
 		ToSql()
 
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Error on creating CreateMessage query")
 	}
 
 	var id uint64
 	err = r.db.GetContext(ctx, &id, query, args...)
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Error on executing CreateMessage query")
 	}
 
 	return id, nil
@@ -55,14 +56,14 @@ func (r *repo) DescribeMessage(ctx context.Context, messageID uint64) (*model.Me
 		Where(sq.Eq{"id": messageID}).ToSql()
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on creating DescribeMessage query")
 	}
 
 	message := model.Message{}
 	err = r.db.GetContext(ctx, &message, query, args...)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on executing DescribeMessage query")
 	}
 
 	return &message, nil
@@ -74,14 +75,14 @@ func (r *repo) ListMessage(ctx context.Context) ([]model.Message, error) {
 		ToSql()
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on creating ListMessage query")
 	}
 
 	var messages []model.Message
 	err = r.db.SelectContext(ctx, &messages, query, args...)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Error on executing ListMessage query")
 	}
 
 	return messages, nil
@@ -92,13 +93,13 @@ func (r *repo) RemoveMessage(ctx context.Context, messageID uint64) (bool, error
 		ToSql()
 
 	if err != nil {
-		return false, err
+		return false, errors.Wrap(err, "Error on creating RemoveMessage query")
 	}
 
 	_, err = r.db.ExecContext(ctx, query, args...)
 
 	if err != nil {
-		return false, err
+		return false, errors.Wrap(err, "Error on executing RemoveMessage query")
 	}
 
 	return true, nil
