@@ -2,16 +2,20 @@ package model
 
 import (
 	"fmt"
+	"github.com/lib/pq"
 	"time"
 )
 
 //Message type
 type Message struct {
-	ID       uint64    `db:"id"`
-	From     string    `db:"from"`
-	To       string    `db:"to"`
-	Text     string    `db:"text"`
-	Datetime time.Time `db:"datetime"`
+	ID       uint64      `db:"id"`
+	From     string      `db:"from"`
+	To       string      `db:"to"`
+	Text     string      `db:"text"`
+	Datetime time.Time   `db:"datetime"`
+	Removed  bool        `db:"removed"`
+	Created  time.Time   `db:"created"`
+	Updated  pq.NullTime `db:"updated"`
 }
 
 //EventType type of message event

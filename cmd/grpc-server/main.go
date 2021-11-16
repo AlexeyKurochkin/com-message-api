@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/ozonmp/com-message-api/internal/logging"
+	"os"
 
 	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
@@ -28,6 +30,14 @@ func main() {
 	}
 	cfg := config.GetConfigInstance()
 
+	log.Logger = zerolog.New(os.Stdout).With().Str("service", "grpc-server").Logger()
+	hook, err := logging.NewGraylogHook("udp://127.0.0.1:12201")
+	if err != nil {
+		panic(err)
+	}
+	//Set global logger with graylog hook
+	log.Logger = log.Hook(hook)
+
 	migration := flag.Bool("migration", true, "Defines the migration start option")
 	flag.Parse()
 
@@ -52,6 +62,8 @@ func main() {
 		cfg.Database.SslMode,
 	)
 
+	log.Info().Msg("DSN IS:")
+	log.Info().Msg(dsn)
 	db, err := database.NewPostgres(dsn, cfg.Database.Driver)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed init postgres")
