@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+//LogLevelUnaryServerInterceptor log level interceptor
 func LogLevelUnaryServerInterceptor(ctx context.Context,
 	req interface{},
 	info *grpc.UnaryServerInfo,

@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+//DetailedInfoRequestUnaryServerInterceptor interceptor for adding details about request
 func DetailedInfoRequestUnaryServerInterceptor(ctx context.Context,
 	req interface{},
 	info *grpc.UnaryServerInfo,
@@ -30,6 +31,7 @@ func DetailedInfoRequestUnaryServerInterceptor(ctx context.Context,
 	return h, err
 }
 
+//DetailedInfoResponseUnaryServerInterceptor interceptor for adding details about response
 func DetailedInfoResponseUnaryServerInterceptor(ctx context.Context,
 	req interface{},
 	info *grpc.UnaryServerInfo,
