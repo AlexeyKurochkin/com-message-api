@@ -75,6 +75,5 @@ func (c *consumer) Start(ctx context.Context) {
 }
 
 func (c *consumer) Close() {
-	close(c.events)
 	c.wg.Wait()
 }
