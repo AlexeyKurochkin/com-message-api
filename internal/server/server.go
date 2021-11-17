@@ -106,6 +106,8 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
 			logging.LogLevelUnaryServerInterceptor,
+			logging.DetailedInfoRequestUnaryServerInterceptor,
+			logging.DetailedInfoResponseUnaryServerInterceptor,
 		)),
 	)
 
