@@ -3,6 +3,7 @@ package consumer
 import (
 	"context"
 	"github.com/ozonmp/com-message-api/internal/app/repo"
+	"github.com/ozonmp/com-message-api/internal/metrics"
 	"github.com/ozonmp/com-message-api/internal/model"
 	"log"
 	"sync"
@@ -63,6 +64,7 @@ func (c *consumer) Start(ctx context.Context) {
 					}
 					for _, event := range events {
 						c.events <- event
+						metrics.HandledEventsTotal.Add(1)
 					}
 				case <-ctx.Done():
 					return
@@ -73,6 +75,6 @@ func (c *consumer) Start(ctx context.Context) {
 }
 
 func (c *consumer) Close() {
-	c.wg.Wait()
 	close(c.events)
+	c.wg.Wait()
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/gammazero/workerpool"
 	"github.com/ozonmp/com-message-api/internal/app/repo"
 	"github.com/ozonmp/com-message-api/internal/app/sender"
+	"github.com/ozonmp/com-message-api/internal/metrics"
 	"github.com/ozonmp/com-message-api/internal/model"
 	"log"
 	"sync"
@@ -88,6 +89,7 @@ func tryUnlockEvent(p *producer, event model.MessageEvent) {
 			log.Printf("Error unlocking event:\n%v", event)
 		} else {
 			log.Printf("Successfully unlocked event:\n%v", event)
+			metrics.HandledEventsTotal.Add(1)
 		}
 	})
 }
@@ -103,6 +105,7 @@ func tryRemoveEvent(p *producer, event model.MessageEvent) {
 			log.Printf("Error removing event:\n%v", event)
 		} else {
 			log.Printf("Successfully removed event:\n%v", event)
+			metrics.HandledEventsTotal.Add(1)
 		}
 	})
 }
