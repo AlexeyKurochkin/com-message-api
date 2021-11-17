@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"github.com/opentracing/opentracing-go"
 	"github.com/ozonmp/com-message-api/internal/logging"
 	"github.com/ozonmp/com-message-api/internal/model"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -39,6 +40,9 @@ func (o *messageAPI) CreateMessageV1(
 	req *pb.CreateMessageV1Request,
 ) (*pb.CreateMessageV1Response, error) {
 
+	span, ctx := opentracing.StartSpanFromContext(ctx, "CreateMessageV1")
+	defer span.Finish()
+
 	log := logging.CreateLogger(ctx, "api", "CreateMessageV1")
 
 	if err := req.Validate(); err != nil {
@@ -74,6 +78,9 @@ func (o *messageAPI) DescribeMessageV1(
 	req *pb.DescribeMessageV1Request,
 ) (*pb.DescribeMessageV1Response, error) {
 
+	span, ctx := opentracing.StartSpanFromContext(ctx, "DescribeMessageV1")
+	defer span.Finish()
+
 	log := logging.CreateLogger(ctx, "api", "DescribeMessageV1")
 
 	if err := req.Validate(); err != nil {
@@ -107,6 +114,9 @@ func (o *messageAPI) ListMessageV1(
 	ctx context.Context,
 	req *pb.ListMessageV1Request,
 ) (*pb.ListMessageV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "ListMessageV1")
+	defer span.Finish()
 
 	log := logging.CreateLogger(ctx, "api", "ListMessageV1")
 
@@ -157,6 +167,9 @@ func (o *messageAPI) RemoveMessageV1(
 	ctx context.Context,
 	req *pb.RemoveMessageV1Request,
 ) (*pb.RemoveMessageV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "RemoveMessageV1")
+	defer span.Finish()
 
 	log := logging.CreateLogger(ctx, "api", "RemoveMessageV1")
 
