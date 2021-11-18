@@ -4,7 +4,7 @@ ARG GITHUB_PATH=github.com/ozonmp/com-message-api
 
 FROM golang:1.16-alpine AS builder
 WORKDIR /home/${GITHUB_PATH}
-RUN apk add --update make git protoc protobuf protobuf-dev curl
+RUN apk add --update build-base make git protoc protobuf protobuf-dev curl
 COPY Makefile Makefile
 RUN make deps-go
 COPY . .
