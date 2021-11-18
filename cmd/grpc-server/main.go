@@ -31,7 +31,7 @@ func main() {
 	cfg := config.GetConfigInstance()
 
 	log.Logger = zerolog.New(os.Stdout).With().Str("service", "grpc-server").Logger()
-	hook, err := graylog.NewGraylogHook("udp://127.0.0.1:12201")
+	hook, err := graylog.NewGraylogHook(fmt.Sprintf(cfg.Graylog.Url))
 	if err != nil {
 		panic(err)
 	}

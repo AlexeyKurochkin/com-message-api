@@ -91,6 +91,11 @@ type Status struct {
 	ReadinessPath string `yaml:"readinessPath"`
 }
 
+// Graylog contains graylog input address.
+type Graylog struct {
+	Url string `yaml:"url"`
+}
+
 // Config - contains all configuration parameters in config package.
 type Config struct {
 	Project  Project  `yaml:"project"`
@@ -101,6 +106,7 @@ type Config struct {
 	Jaeger   Jaeger   `yaml:"jaeger"`
 	Kafka    Kafka    `yaml:"kafka"`
 	Status   Status   `yaml:"status"`
+	Graylog  Graylog  `yaml:"graylog"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.
