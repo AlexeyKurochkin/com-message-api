@@ -93,7 +93,7 @@ type Status struct {
 
 // Graylog contains graylog input address.
 type Graylog struct {
-	Url string `yaml:"url"`
+	URL string `yaml:"url"`
 }
 
 // Config - contains all configuration parameters in config package.
