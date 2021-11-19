@@ -43,7 +43,7 @@ func (o *messageAPI) CreateMessageV1(
 	span, ctx := opentracing.StartSpanFromContext(ctx, "CreateMessageV1")
 	defer span.Finish()
 
-	log := logging.CreateLogger(ctx, "api", "CreateMessageV1")
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "CreateMessageV1")
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("invalid argument")
@@ -81,7 +81,7 @@ func (o *messageAPI) DescribeMessageV1(
 	span, ctx := opentracing.StartSpanFromContext(ctx, "DescribeMessageV1")
 	defer span.Finish()
 
-	log := logging.CreateLogger(ctx, "api", "DescribeMessageV1")
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "DescribeMessageV1")
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("invalid argument")
@@ -118,7 +118,7 @@ func (o *messageAPI) ListMessageV1(
 	span, ctx := opentracing.StartSpanFromContext(ctx, "ListMessageV1")
 	defer span.Finish()
 
-	log := logging.CreateLogger(ctx, "api", "ListMessageV1")
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "ListMessageV1")
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("invalid argument")
@@ -171,7 +171,7 @@ func (o *messageAPI) RemoveMessageV1(
 	span, ctx := opentracing.StartSpanFromContext(ctx, "RemoveMessageV1")
 	defer span.Finish()
 
-	log := logging.CreateLogger(ctx, "api", "RemoveMessageV1")
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "RemoveMessageV1")
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("invalid argument")
