@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/ozonmp/com-message-api/internal/logging"
 	"net"
 	"net/http"
 	"os"
@@ -104,6 +105,9 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 			grpc_prometheus.UnaryServerInterceptor,
 			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
+			logging.LogLevelUnaryServerInterceptor,
+			logging.DetailedInfoRequestUnaryServerInterceptor,
+			logging.DetailedInfoResponseUnaryServerInterceptor,
 		)),
 	)
 

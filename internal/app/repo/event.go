@@ -3,6 +3,7 @@ package repo
 import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
+	"github.com/ozonmp/com-message-api/internal/metrics"
 	"github.com/ozonmp/com-message-api/internal/model"
 	pb "github.com/ozonmp/com-message-api/pkg/com-message-api"
 	"github.com/pkg/errors"
@@ -63,6 +64,8 @@ func (r *repo) Lock(n uint64) ([]model.MessageEvent, error) {
 		return nil, errors.Wrap(updateErr, "Error on executing update sql query")
 	}
 
+	metrics.EventsTotal.WithLabelValues("lock").Inc()
+
 	return messagesEvents, nil
 }
 
@@ -79,6 +82,8 @@ func (r *repo) Unlock(eventIDs []uint64) error {
 		return errors.Wrap(err, "Error on executing unlock sql query")
 	}
 
+	metrics.EventsTotal.WithLabelValues("unlock").Inc()
+
 	return nil
 }
 
@@ -93,6 +98,9 @@ func (r *repo) Remove(eventIDs []uint64) error {
 	if err != nil {
 		return errors.Wrap(err, "Error on executing remove query")
 	}
+
+	metrics.EventsTotal.WithLabelValues("remove").Inc()
+
 	return nil
 }
 
@@ -130,5 +138,8 @@ func (r *repo) Add(event model.MessageEvent) error {
 	if err != nil {
 		return errors.Wrap(err, "Error on executing query for adding messages")
 	}
+
+	metrics.EventsTotal.WithLabelValues("add").Inc()
+
 	return nil
 }
