@@ -74,7 +74,7 @@ func main() {
 	rtsCfg := retranslator.Config{
 		ConsumerCount:  2,
 		ConsumeSize:    10,
-		ConsumeTimeout: 10 * time.Second,
+		ConsumeTimeout: 1 * time.Second,
 		ProducerCount:  28,
 		WorkerCount:    2,
 		ChannelSize:    512,

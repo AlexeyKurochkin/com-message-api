@@ -84,3 +84,22 @@ func (e EventStatus) String() string {
 		return "unknown"
 	}
 }
+
+func (e *EventStatus) Scan(value interface{}) error {
+	var result EventStatus
+	switch value {
+	case "new":
+		result = New
+	case "deferred":
+		result = Deferred
+	case "processed":
+		result = Processed
+	case "lock":
+		result = Lock
+	case "Unlock":
+		result = Unlock
+	}
+
+	*e = result
+	return nil
+}
