@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	eventRepo "github.com/ozonmp/com-message-api/internal/app/repo"
 	"github.com/ozonmp/com-message-api/internal/repo"
 
 	pb "github.com/ozonmp/com-message-api/pkg/com-message-api"
@@ -27,12 +28,13 @@ var (
 
 type messageAPI struct {
 	pb.UnimplementedComMessageApiServiceServer
-	repo repo.Repo
+	repo      repo.Repo
+	eventRepo eventRepo.EventRepo
 }
 
 // NewMessageAPI returns api of com-message-api service
-func NewMessageAPI(r repo.Repo) pb.ComMessageApiServiceServer {
-	return &messageAPI{repo: r}
+func NewMessageAPI(r repo.Repo, er eventRepo.EventRepo) pb.ComMessageApiServiceServer {
+	return &messageAPI{repo: r, eventRepo: er}
 }
 
 func (o *messageAPI) CreateMessageV1(
@@ -63,6 +65,18 @@ func (o *messageAPI) CreateMessageV1(
 		log.Error().Err(err).Msg("failed")
 
 		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	messageEvent := model.MessageEvent{
+		MessageId: newID,
+		TypeDb:    model.Created.String(),
+		Status:    model.New,
+		Type:      model.Created,
+		Entity:    message,
+	}
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
 	}
 
 	log.Debug().Msg("success")
@@ -179,7 +193,8 @@ func (o *messageAPI) RemoveMessageV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	success, err := o.repo.RemoveMessage(ctx, req.GetMessageId())
+	messageId := req.GetMessageId()
+	success, err := o.repo.RemoveMessage(ctx, messageId)
 	if err != nil {
 		log.Error().Err(err).Msg("failed")
 
@@ -191,6 +206,18 @@ func (o *messageAPI) RemoveMessageV1(
 		totalMessageNotFound.Inc()
 
 		return nil, status.Error(codes.NotFound, "message not found")
+	}
+
+	//todo check for error due to nil entity
+	messageEvent := model.MessageEvent{
+		MessageId: messageId,
+		TypeDb:    model.Removed.String(),
+		Status:    model.New,
+		Type:      model.Removed,
+	}
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
 	}
 
 	log.Debug().Msg("success")

@@ -129,7 +129,7 @@ func (r *repo) Add(event model.MessageEvent) error {
 
 	query, args, insertErr := psql.Insert("messages_events").
 		Columns("message_id", "type", "status", "payload", "updated").
-		Values(event.ID, event.Type, event.Status, payload, time.Now()).ToSql()
+		Values(event.MessageId, event.TypeDb, event.Status.String(), payload, time.Now()).ToSql()
 	if insertErr != nil {
 		return errors.Wrap(insertErr, "Error on creating sql query for adding messages")
 	}

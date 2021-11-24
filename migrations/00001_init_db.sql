@@ -11,9 +11,8 @@ CREATE TABLE IF NOT EXISTS messages
     "updated"  TIMESTAMP
 );
 
-CREATE TYPE event_type AS ENUM ('Created', 'Updated', 'Removed');
-
-CREATE TYPE event_status AS ENUM ('lock', 'unlock');
+CREATE TYPE event_type AS ENUM ('created', 'updated', 'removed', 'unknown');
+CREATE TYPE event_status AS ENUM ('deferred', 'processed', 'new', 'lock', 'unlock');
 
 CREATE TABLE messages_events
 (

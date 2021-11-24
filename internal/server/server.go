@@ -26,8 +26,10 @@ import (
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 
 	"github.com/ozonmp/com-message-api/internal/api"
+	eventRepo "github.com/ozonmp/com-message-api/internal/app/repo"
 	"github.com/ozonmp/com-message-api/internal/config"
 	"github.com/ozonmp/com-message-api/internal/repo"
+
 	pb "github.com/ozonmp/com-message-api/pkg/com-message-api"
 )
 
@@ -112,8 +114,9 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 	)
 
 	r := repo.NewRepo(s.db, s.batchSize)
+	er := eventRepo.NewEventRepo(s.db)
 
-	pb.RegisterComMessageApiServiceServer(grpcServer, api.NewMessageAPI(r))
+	pb.RegisterComMessageApiServiceServer(grpcServer, api.NewMessageAPI(r, er))
 	grpc_prometheus.EnableHandlingTimeHistogram()
 	grpc_prometheus.Register(grpcServer)
 

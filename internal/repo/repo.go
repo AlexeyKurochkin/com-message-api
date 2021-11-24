@@ -32,7 +32,7 @@ func NewRepo(db *sqlx.DB, batchSize uint) Repo {
 
 func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint64, error) {
 	query, args, err := psql.Insert("messages").
-		Columns("from", "to", "text", "datetime").
+		Columns("\"from\"", "\"to\"", "text", "datetime").
 		Values(message.From, message.To, message.Text, message.Datetime).
 		Suffix("returning id").
 		ToSql()
@@ -51,7 +51,7 @@ func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint6
 }
 
 func (r *repo) DescribeMessage(ctx context.Context, messageID uint64) (*model.Message, error) {
-	query, args, err := psql.Select("id", "from", "to", "text", "datetime", "removed", "created", "updated_at").
+	query, args, err := psql.Select("id", "\"from\"", "\"to\"", "text", "datetime", "removed", "created", "updated_at").
 		From("messages").
 		Where(sq.Eq{"id": messageID}).ToSql()
 
