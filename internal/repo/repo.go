@@ -18,6 +18,7 @@ type Repo interface {
 	DescribeMessage(ctx context.Context, messageID uint64) (*model.Message, error)
 	ListMessage(ctx context.Context) ([]model.Message, error)
 	RemoveMessage(ctx context.Context, messageID uint64) (bool, error)
+	UpdateMessage(ctx context.Context, message *model.Message) (*model.Message, error)
 }
 
 type repo struct {
@@ -103,4 +104,25 @@ func (r *repo) RemoveMessage(ctx context.Context, messageID uint64) (bool, error
 	}
 
 	return true, nil
+}
+
+func (r *repo) UpdateMessage(ctx context.Context, message *model.Message) (*model.Message, error) {
+	query, args, err := psql.Update("messages").
+		Set("\"from\"", message.From).
+		Set("\"to\"", message.To).
+		Set("text", message.Text).
+		Set("datetime", message.Datetime).
+		Where(sq.Eq{"id": message.ID}).
+		ToSql()
+
+	if err != nil {
+		return nil, errors.Wrap(err, "Error on creating UpdateMessage query")
+	}
+
+	_, err = r.db.ExecContext(ctx, query, args...)
+	if err != nil {
+		return nil, errors.Wrap(err, "Error on executing UpdateMessage query")
+	}
+
+	return message, nil
 }

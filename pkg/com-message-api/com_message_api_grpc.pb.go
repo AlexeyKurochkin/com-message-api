@@ -26,6 +26,8 @@ type ComMessageApiServiceClient interface {
 	ListMessageV1(ctx context.Context, in *ListMessageV1Request, opts ...grpc.CallOption) (*ListMessageV1Response, error)
 	// RemoveMessageV1 - Describe a message
 	RemoveMessageV1(ctx context.Context, in *RemoveMessageV1Request, opts ...grpc.CallOption) (*RemoveMessageV1Response, error)
+	// UpdateMessageV1 - Create a message
+	UpdateMessageV1(ctx context.Context, in *UpdateMessageV1Request, opts ...grpc.CallOption) (*UpdateMessageV1Response, error)
 }
 
 type comMessageApiServiceClient struct {
@@ -72,6 +74,15 @@ func (c *comMessageApiServiceClient) RemoveMessageV1(ctx context.Context, in *Re
 	return out, nil
 }
 
+func (c *comMessageApiServiceClient) UpdateMessageV1(ctx context.Context, in *UpdateMessageV1Request, opts ...grpc.CallOption) (*UpdateMessageV1Response, error) {
+	out := new(UpdateMessageV1Response)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ComMessageApiServiceServer is the server API for ComMessageApiService service.
 // All implementations must embed UnimplementedComMessageApiServiceServer
 // for forward compatibility
@@ -84,6 +95,8 @@ type ComMessageApiServiceServer interface {
 	ListMessageV1(context.Context, *ListMessageV1Request) (*ListMessageV1Response, error)
 	// RemoveMessageV1 - Describe a message
 	RemoveMessageV1(context.Context, *RemoveMessageV1Request) (*RemoveMessageV1Response, error)
+	// UpdateMessageV1 - Create a message
+	UpdateMessageV1(context.Context, *UpdateMessageV1Request) (*UpdateMessageV1Response, error)
 	mustEmbedUnimplementedComMessageApiServiceServer()
 }
 
@@ -102,6 +115,9 @@ func (UnimplementedComMessageApiServiceServer) ListMessageV1(context.Context, *L
 }
 func (UnimplementedComMessageApiServiceServer) RemoveMessageV1(context.Context, *RemoveMessageV1Request) (*RemoveMessageV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveMessageV1 not implemented")
+}
+func (UnimplementedComMessageApiServiceServer) UpdateMessageV1(context.Context, *UpdateMessageV1Request) (*UpdateMessageV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMessageV1 not implemented")
 }
 func (UnimplementedComMessageApiServiceServer) mustEmbedUnimplementedComMessageApiServiceServer() {}
 
@@ -188,6 +204,24 @@ func _ComMessageApiService_RemoveMessageV1_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ComMessageApiService_UpdateMessageV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMessageV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComMessageApiServiceServer).UpdateMessageV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComMessageApiServiceServer).UpdateMessageV1(ctx, req.(*UpdateMessageV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ComMessageApiService_ServiceDesc is the grpc.ServiceDesc for ComMessageApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -210,6 +244,10 @@ var ComMessageApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveMessageV1",
 			Handler:    _ComMessageApiService_RemoveMessageV1_Handler,
+		},
+		{
+			MethodName: "UpdateMessageV1",
+			Handler:    _ComMessageApiService_UpdateMessageV1_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

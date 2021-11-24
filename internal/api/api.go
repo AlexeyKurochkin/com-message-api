@@ -226,3 +226,53 @@ func (o *messageAPI) RemoveMessageV1(
 		Result: success,
 	}, nil
 }
+
+func (o *messageAPI) UpdateMessageV1(
+	ctx context.Context,
+	req *pb.UpdateMessageV1Request,
+) (*pb.UpdateMessageV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "UpdateMessageV1")
+	defer span.Finish()
+
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "UpdateMessageV1")
+
+	if err := req.Validate(); err != nil {
+		log.Error().Err(err).Msg("invalid argument")
+
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	message := &model.Message{
+		ID:       req.GetMessageId(),
+		From:     req.GetFrom(),
+		To:       req.GetTo(),
+		Text:     req.GetText(),
+		Datetime: req.GetDatetime().AsTime(),
+	}
+
+	updatedMessage, err := o.repo.UpdateMessage(ctx, message)
+	if err != nil {
+		log.Error().Err(err).Msg("update failed")
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	messageEvent := model.MessageEvent{
+		MessageId: updatedMessage.ID,
+		TypeDb:    model.Updated.String(),
+		Status:    model.New,
+		Type:      model.Updated,
+		Entity:    message,
+	}
+
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
+	}
+
+	log.Debug().Msg("success")
+
+	return &pb.UpdateMessageV1Response{
+		Value: convertMessageToPbModel(updatedMessage),
+	}, nil
+}

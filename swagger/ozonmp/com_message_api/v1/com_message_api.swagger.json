@@ -177,6 +177,49 @@
           "ComMessageApiService"
         ]
       }
+    },
+    "/v1/messages/update": {
+      "post": {
+        "summary": "UpdateMessageV1 - Create a message",
+        "operationId": "ComMessageApiService_UpdateMessageV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateMessageV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateMessageV1Request"
+            }
+          },
+          {
+            "name": "grpc-metadata-log-level",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "grpc-metadata-is-detailed-info",
+            "in": "header",
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ComMessageApiService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -282,6 +325,36 @@
       "properties": {
         "result": {
           "type": "boolean"
+        }
+      }
+    },
+    "v1UpdateMessageV1Request": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "datetime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1UpdateMessageV1Response": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/v1Message"
         }
       }
     }
