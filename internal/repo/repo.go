@@ -51,7 +51,7 @@ func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint6
 }
 
 func (r *repo) DescribeMessage(ctx context.Context, messageID uint64) (*model.Message, error) {
-	query, args, err := psql.Select("id", "\"from\"", "\"to\"", "text", "datetime", "removed", "created", "updated_at").
+	query, args, err := psql.Select("id", "\"from\"", "\"to\"", "text", "datetime", "removed", "created", "updated").
 		From("messages").
 		Where(sq.Eq{"id": messageID}).ToSql()
 

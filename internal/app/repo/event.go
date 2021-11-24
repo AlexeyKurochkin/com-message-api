@@ -37,7 +37,7 @@ type repo struct {
 }
 
 func (r *repo) Lock(n uint64) ([]model.MessageEvent, error) {
-	query, args, err := psql.Select("id", "message_id", "type", "status", "payload", "updated_at").
+	query, args, err := psql.Select("id", "message_id", "type", "status", "payload", "updated").
 		From("messages_events").Where(sq.NotEq{"status": lockedStatus}).
 		OrderBy("id ASC").ToSql()
 
@@ -46,7 +46,7 @@ func (r *repo) Lock(n uint64) ([]model.MessageEvent, error) {
 	}
 
 	var messagesEvents []model.MessageEvent
-	err = r.db.Select(messagesEvents, query, args...)
+	err = r.db.Select(&messagesEvents, query, args...)
 	if err != nil {
 		return nil, errors.Wrap(err, "Error on executing lock query")
 	}
@@ -115,7 +115,7 @@ func getEventIds(events []model.MessageEvent) []uint64 {
 
 func (r *repo) Add(event model.MessageEvent) error {
 	pbMessage := &pb.Message{
-		Id:       event.Entity.ID,
+		Id:       event.MessageId,
 		From:     event.Entity.From,
 		To:       event.Entity.To,
 		Text:     event.Entity.Text,

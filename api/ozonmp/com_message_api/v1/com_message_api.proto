@@ -48,6 +48,15 @@ message Message {
   google.protobuf.Timestamp datetime = 5;
 }
 
+message MessageEvent {
+  uint64 id = 1;
+  uint64 message_id = 2;
+  string type = 3;
+  string status = 4;
+  Message payload = 5;
+  google.protobuf.Timestamp updated = 6;
+}
+
 message CreateMessageV1Request {
   string from = 1 [(validate.rules).string.min_len = 1];
   string to = 2 [(validate.rules).string.min_len = 1];

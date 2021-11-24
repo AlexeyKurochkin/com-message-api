@@ -115,6 +115,99 @@ var _ interface {
 	ErrorName() string
 } = MessageValidationError{}
 
+// Validate checks the field values on MessageEvent with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *MessageEvent) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Id
+
+	// no validation rules for MessageId
+
+	// no validation rules for Type
+
+	// no validation rules for Status
+
+	if v, ok := interface{}(m.GetPayload()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return MessageEventValidationError{
+				field:  "Payload",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetUpdated()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return MessageEventValidationError{
+				field:  "Updated",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// MessageEventValidationError is the validation error returned by
+// MessageEvent.Validate if the designated constraints aren't met.
+type MessageEventValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e MessageEventValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e MessageEventValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e MessageEventValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e MessageEventValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e MessageEventValidationError) ErrorName() string { return "MessageEventValidationError" }
+
+// Error satisfies the builtin error interface
+func (e MessageEventValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sMessageEvent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = MessageEventValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = MessageEventValidationError{}
+
 // Validate checks the field values on CreateMessageV1Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.

@@ -102,6 +102,93 @@ func (x *Message) GetDatetime() *timestamppb.Timestamp {
 	return nil
 }
 
+type MessageEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id        uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	MessageId uint64                 `protobuf:"varint,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Type      string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Status    string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	Payload   *Message               `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
+	Updated   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated,proto3" json:"updated,omitempty"`
+}
+
+func (x *MessageEvent) Reset() {
+	*x = MessageEvent{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MessageEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageEvent) ProtoMessage() {}
+
+func (x *MessageEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageEvent.ProtoReflect.Descriptor instead.
+func (*MessageEvent) Descriptor() ([]byte, []int) {
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MessageEvent) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *MessageEvent) GetMessageId() uint64 {
+	if x != nil {
+		return x.MessageId
+	}
+	return 0
+}
+
+func (x *MessageEvent) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *MessageEvent) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *MessageEvent) GetPayload() *Message {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *MessageEvent) GetUpdated() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Updated
+	}
+	return nil
+}
+
 type CreateMessageV1Request struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -116,7 +203,7 @@ type CreateMessageV1Request struct {
 func (x *CreateMessageV1Request) Reset() {
 	*x = CreateMessageV1Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[1]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -129,7 +216,7 @@ func (x *CreateMessageV1Request) String() string {
 func (*CreateMessageV1Request) ProtoMessage() {}
 
 func (x *CreateMessageV1Request) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[1]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -142,7 +229,7 @@ func (x *CreateMessageV1Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateMessageV1Request.ProtoReflect.Descriptor instead.
 func (*CreateMessageV1Request) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{1}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateMessageV1Request) GetFrom() string {
@@ -184,7 +271,7 @@ type CreateMessageV1Response struct {
 func (x *CreateMessageV1Response) Reset() {
 	*x = CreateMessageV1Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[2]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -197,7 +284,7 @@ func (x *CreateMessageV1Response) String() string {
 func (*CreateMessageV1Response) ProtoMessage() {}
 
 func (x *CreateMessageV1Response) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[2]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -210,7 +297,7 @@ func (x *CreateMessageV1Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateMessageV1Response.ProtoReflect.Descriptor instead.
 func (*CreateMessageV1Response) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{2}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateMessageV1Response) GetValue() *Message {
@@ -231,7 +318,7 @@ type DescribeMessageV1Request struct {
 func (x *DescribeMessageV1Request) Reset() {
 	*x = DescribeMessageV1Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[3]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -244,7 +331,7 @@ func (x *DescribeMessageV1Request) String() string {
 func (*DescribeMessageV1Request) ProtoMessage() {}
 
 func (x *DescribeMessageV1Request) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[3]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -257,7 +344,7 @@ func (x *DescribeMessageV1Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeMessageV1Request.ProtoReflect.Descriptor instead.
 func (*DescribeMessageV1Request) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{3}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeMessageV1Request) GetMessageId() uint64 {
@@ -278,7 +365,7 @@ type DescribeMessageV1Response struct {
 func (x *DescribeMessageV1Response) Reset() {
 	*x = DescribeMessageV1Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[4]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -291,7 +378,7 @@ func (x *DescribeMessageV1Response) String() string {
 func (*DescribeMessageV1Response) ProtoMessage() {}
 
 func (x *DescribeMessageV1Response) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[4]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +391,7 @@ func (x *DescribeMessageV1Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeMessageV1Response.ProtoReflect.Descriptor instead.
 func (*DescribeMessageV1Response) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{4}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeMessageV1Response) GetValue() *Message {
@@ -323,7 +410,7 @@ type ListMessageV1Request struct {
 func (x *ListMessageV1Request) Reset() {
 	*x = ListMessageV1Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[5]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -336,7 +423,7 @@ func (x *ListMessageV1Request) String() string {
 func (*ListMessageV1Request) ProtoMessage() {}
 
 func (x *ListMessageV1Request) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[5]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -349,7 +436,7 @@ func (x *ListMessageV1Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMessageV1Request.ProtoReflect.Descriptor instead.
 func (*ListMessageV1Request) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{5}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{6}
 }
 
 type ListMessageV1Response struct {
@@ -363,7 +450,7 @@ type ListMessageV1Response struct {
 func (x *ListMessageV1Response) Reset() {
 	*x = ListMessageV1Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[6]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -376,7 +463,7 @@ func (x *ListMessageV1Response) String() string {
 func (*ListMessageV1Response) ProtoMessage() {}
 
 func (x *ListMessageV1Response) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[6]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -389,7 +476,7 @@ func (x *ListMessageV1Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMessageV1Response.ProtoReflect.Descriptor instead.
 func (*ListMessageV1Response) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{6}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListMessageV1Response) GetValue() []*Message {
@@ -410,7 +497,7 @@ type RemoveMessageV1Request struct {
 func (x *RemoveMessageV1Request) Reset() {
 	*x = RemoveMessageV1Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[7]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -423,7 +510,7 @@ func (x *RemoveMessageV1Request) String() string {
 func (*RemoveMessageV1Request) ProtoMessage() {}
 
 func (x *RemoveMessageV1Request) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[7]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -436,7 +523,7 @@ func (x *RemoveMessageV1Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveMessageV1Request.ProtoReflect.Descriptor instead.
 func (*RemoveMessageV1Request) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{7}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RemoveMessageV1Request) GetMessageId() uint64 {
@@ -457,7 +544,7 @@ type RemoveMessageV1Response struct {
 func (x *RemoveMessageV1Response) Reset() {
 	*x = RemoveMessageV1Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[8]
+		mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -470,7 +557,7 @@ func (x *RemoveMessageV1Response) String() string {
 func (*RemoveMessageV1Response) ProtoMessage() {}
 
 func (x *RemoveMessageV1Response) ProtoReflect() protoreflect.Message {
-	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[8]
+	mi := &file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -483,7 +570,7 @@ func (x *RemoveMessageV1Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveMessageV1Response.ProtoReflect.Descriptor instead.
 func (*RemoveMessageV1Response) Descriptor() ([]byte, []int) {
-	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{8}
+	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RemoveMessageV1Response) GetResult() bool {
@@ -515,6 +602,20 @@ var file_ozonmp_com_message_api_v1_com_message_api_proto_rawDesc = []byte{
 	0x74, 0x69, 0x6d, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
 	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d,
 	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x08, 0x64, 0x61, 0x74, 0x65, 0x74, 0x69, 0x6d, 0x65,
+	0x22, 0xdd, 0x01, 0x0a, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69,
+	0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x49, 0x64,
+	0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x3c, 0x0a, 0x07,
+	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e,
+	0x6f, 0x7a, 0x6f, 0x6e, 0x6d, 0x70, 0x2e, 0x63, 0x6f, 0x6d, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x34, 0x0a, 0x07, 0x75, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x07, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
 	0x22, 0xa4, 0x01, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61,
 	0x67, 0x65, 0x56, 0x31, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x04, 0x66,
 	0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x72, 0x02,
@@ -615,38 +716,41 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescGZIP() []byte {
 	return file_ozonmp_com_message_api_v1_com_message_api_proto_rawDescData
 }
 
-var file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_ozonmp_com_message_api_v1_com_message_api_proto_goTypes = []interface{}{
 	(*Message)(nil),                   // 0: ozonmp.com_message_api.v1.Message
-	(*CreateMessageV1Request)(nil),    // 1: ozonmp.com_message_api.v1.CreateMessageV1Request
-	(*CreateMessageV1Response)(nil),   // 2: ozonmp.com_message_api.v1.CreateMessageV1Response
-	(*DescribeMessageV1Request)(nil),  // 3: ozonmp.com_message_api.v1.DescribeMessageV1Request
-	(*DescribeMessageV1Response)(nil), // 4: ozonmp.com_message_api.v1.DescribeMessageV1Response
-	(*ListMessageV1Request)(nil),      // 5: ozonmp.com_message_api.v1.ListMessageV1Request
-	(*ListMessageV1Response)(nil),     // 6: ozonmp.com_message_api.v1.ListMessageV1Response
-	(*RemoveMessageV1Request)(nil),    // 7: ozonmp.com_message_api.v1.RemoveMessageV1Request
-	(*RemoveMessageV1Response)(nil),   // 8: ozonmp.com_message_api.v1.RemoveMessageV1Response
-	(*timestamppb.Timestamp)(nil),     // 9: google.protobuf.Timestamp
+	(*MessageEvent)(nil),              // 1: ozonmp.com_message_api.v1.MessageEvent
+	(*CreateMessageV1Request)(nil),    // 2: ozonmp.com_message_api.v1.CreateMessageV1Request
+	(*CreateMessageV1Response)(nil),   // 3: ozonmp.com_message_api.v1.CreateMessageV1Response
+	(*DescribeMessageV1Request)(nil),  // 4: ozonmp.com_message_api.v1.DescribeMessageV1Request
+	(*DescribeMessageV1Response)(nil), // 5: ozonmp.com_message_api.v1.DescribeMessageV1Response
+	(*ListMessageV1Request)(nil),      // 6: ozonmp.com_message_api.v1.ListMessageV1Request
+	(*ListMessageV1Response)(nil),     // 7: ozonmp.com_message_api.v1.ListMessageV1Response
+	(*RemoveMessageV1Request)(nil),    // 8: ozonmp.com_message_api.v1.RemoveMessageV1Request
+	(*RemoveMessageV1Response)(nil),   // 9: ozonmp.com_message_api.v1.RemoveMessageV1Response
+	(*timestamppb.Timestamp)(nil),     // 10: google.protobuf.Timestamp
 }
 var file_ozonmp_com_message_api_v1_com_message_api_proto_depIdxs = []int32{
-	9, // 0: ozonmp.com_message_api.v1.Message.datetime:type_name -> google.protobuf.Timestamp
-	9, // 1: ozonmp.com_message_api.v1.CreateMessageV1Request.datetime:type_name -> google.protobuf.Timestamp
-	0, // 2: ozonmp.com_message_api.v1.CreateMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
-	0, // 3: ozonmp.com_message_api.v1.DescribeMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
-	0, // 4: ozonmp.com_message_api.v1.ListMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
-	1, // 5: ozonmp.com_message_api.v1.ComMessageApiService.CreateMessageV1:input_type -> ozonmp.com_message_api.v1.CreateMessageV1Request
-	3, // 6: ozonmp.com_message_api.v1.ComMessageApiService.DescribeMessageV1:input_type -> ozonmp.com_message_api.v1.DescribeMessageV1Request
-	5, // 7: ozonmp.com_message_api.v1.ComMessageApiService.ListMessageV1:input_type -> ozonmp.com_message_api.v1.ListMessageV1Request
-	7, // 8: ozonmp.com_message_api.v1.ComMessageApiService.RemoveMessageV1:input_type -> ozonmp.com_message_api.v1.RemoveMessageV1Request
-	2, // 9: ozonmp.com_message_api.v1.ComMessageApiService.CreateMessageV1:output_type -> ozonmp.com_message_api.v1.CreateMessageV1Response
-	4, // 10: ozonmp.com_message_api.v1.ComMessageApiService.DescribeMessageV1:output_type -> ozonmp.com_message_api.v1.DescribeMessageV1Response
-	6, // 11: ozonmp.com_message_api.v1.ComMessageApiService.ListMessageV1:output_type -> ozonmp.com_message_api.v1.ListMessageV1Response
-	8, // 12: ozonmp.com_message_api.v1.ComMessageApiService.RemoveMessageV1:output_type -> ozonmp.com_message_api.v1.RemoveMessageV1Response
-	9, // [9:13] is the sub-list for method output_type
-	5, // [5:9] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	10, // 0: ozonmp.com_message_api.v1.Message.datetime:type_name -> google.protobuf.Timestamp
+	0,  // 1: ozonmp.com_message_api.v1.MessageEvent.payload:type_name -> ozonmp.com_message_api.v1.Message
+	10, // 2: ozonmp.com_message_api.v1.MessageEvent.updated:type_name -> google.protobuf.Timestamp
+	10, // 3: ozonmp.com_message_api.v1.CreateMessageV1Request.datetime:type_name -> google.protobuf.Timestamp
+	0,  // 4: ozonmp.com_message_api.v1.CreateMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
+	0,  // 5: ozonmp.com_message_api.v1.DescribeMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
+	0,  // 6: ozonmp.com_message_api.v1.ListMessageV1Response.value:type_name -> ozonmp.com_message_api.v1.Message
+	2,  // 7: ozonmp.com_message_api.v1.ComMessageApiService.CreateMessageV1:input_type -> ozonmp.com_message_api.v1.CreateMessageV1Request
+	4,  // 8: ozonmp.com_message_api.v1.ComMessageApiService.DescribeMessageV1:input_type -> ozonmp.com_message_api.v1.DescribeMessageV1Request
+	6,  // 9: ozonmp.com_message_api.v1.ComMessageApiService.ListMessageV1:input_type -> ozonmp.com_message_api.v1.ListMessageV1Request
+	8,  // 10: ozonmp.com_message_api.v1.ComMessageApiService.RemoveMessageV1:input_type -> ozonmp.com_message_api.v1.RemoveMessageV1Request
+	3,  // 11: ozonmp.com_message_api.v1.ComMessageApiService.CreateMessageV1:output_type -> ozonmp.com_message_api.v1.CreateMessageV1Response
+	5,  // 12: ozonmp.com_message_api.v1.ComMessageApiService.DescribeMessageV1:output_type -> ozonmp.com_message_api.v1.DescribeMessageV1Response
+	7,  // 13: ozonmp.com_message_api.v1.ComMessageApiService.ListMessageV1:output_type -> ozonmp.com_message_api.v1.ListMessageV1Response
+	9,  // 14: ozonmp.com_message_api.v1.ComMessageApiService.RemoveMessageV1:output_type -> ozonmp.com_message_api.v1.RemoveMessageV1Response
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_ozonmp_com_message_api_v1_com_message_api_proto_init() }
@@ -668,7 +772,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateMessageV1Request); i {
+			switch v := v.(*MessageEvent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -680,7 +784,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateMessageV1Response); i {
+			switch v := v.(*CreateMessageV1Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -692,7 +796,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeMessageV1Request); i {
+			switch v := v.(*CreateMessageV1Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -704,7 +808,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeMessageV1Response); i {
+			switch v := v.(*DescribeMessageV1Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -716,7 +820,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListMessageV1Request); i {
+			switch v := v.(*DescribeMessageV1Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -728,7 +832,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListMessageV1Response); i {
+			switch v := v.(*ListMessageV1Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -740,7 +844,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemoveMessageV1Request); i {
+			switch v := v.(*ListMessageV1Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -752,6 +856,18 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			}
 		}
 		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemoveMessageV1Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ozonmp_com_message_api_v1_com_message_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RemoveMessageV1Response); i {
 			case 0:
 				return &v.state
@@ -770,7 +886,7 @@ func file_ozonmp_com_message_api_v1_com_message_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ozonmp_com_message_api_v1_com_message_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
