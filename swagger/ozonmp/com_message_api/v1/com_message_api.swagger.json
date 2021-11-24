@@ -1,0 +1,289 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ozonmp/com_message_api/v1/com_message_api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ComMessageApiService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/messages/create": {
+      "post": {
+        "summary": "CreateMessageV1 - Create a message",
+        "operationId": "ComMessageApiService_CreateMessageV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateMessageV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateMessageV1Request"
+            }
+          },
+          {
+            "name": "grpc-metadata-log-level",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "grpc-metadata-is-detailed-info",
+            "in": "header",
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ComMessageApiService"
+        ]
+      }
+    },
+    "/v1/messages/describe/{messageId}": {
+      "get": {
+        "summary": "DescribeMessageV1 - Describe a message",
+        "operationId": "ComMessageApiService_DescribeMessageV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DescribeMessageV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "grpc-metadata-log-level",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "grpc-metadata-is-detailed-info",
+            "in": "header",
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ComMessageApiService"
+        ]
+      }
+    },
+    "/v1/messages/list": {
+      "get": {
+        "summary": "ListMessageV1 - List a messages",
+        "operationId": "ComMessageApiService_ListMessageV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListMessageV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "grpc-metadata-log-level",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "grpc-metadata-is-detailed-info",
+            "in": "header",
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ComMessageApiService"
+        ]
+      }
+    },
+    "/v1/messages/remove/{messageId}": {
+      "get": {
+        "summary": "RemoveMessageV1 - Describe a message",
+        "operationId": "ComMessageApiService_RemoveMessageV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RemoveMessageV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "grpc-metadata-log-level",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "grpc-metadata-is-detailed-info",
+            "in": "header",
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ComMessageApiService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1CreateMessageV1Request": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "datetime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1CreateMessageV1Response": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/v1Message"
+        }
+      }
+    },
+    "v1DescribeMessageV1Response": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/v1Message"
+        }
+      }
+    },
+    "v1ListMessageV1Response": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Message"
+          }
+        }
+      }
+    },
+    "v1Message": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "datetime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1RemoveMessageV1Response": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
