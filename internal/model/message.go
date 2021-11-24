@@ -25,6 +25,15 @@ type EventType uint8
 //EventStatus status of message event
 type EventStatus uint8
 
+const (
+	deferredString  = "deferred"
+	processedString = "processed"
+	newString       = "new"
+	lockString      = "lock"
+	unlockString    = "unlock"
+	unknownString   = "unknown"
+)
+
 //EventType enum
 const (
 	Created EventType = iota
@@ -71,17 +80,17 @@ func (e EventType) String() string {
 func (e EventStatus) String() string {
 	switch e {
 	case Deferred:
-		return "deferred"
+		return deferredString
 	case Processed:
-		return "processed"
+		return processedString
 	case New:
-		return "new"
+		return newString
 	case Lock:
-		return "lock"
+		return lockString
 	case Unlock:
-		return "unlock"
+		return unlockString
 	default:
-		return "unknown"
+		return unknownString
 	}
 }
 
@@ -89,15 +98,15 @@ func (e EventStatus) String() string {
 func (e *EventStatus) Scan(value interface{}) error {
 	var result EventStatus
 	switch value {
-	case "new":
+	case newString:
 		result = New
-	case "deferred":
+	case deferredString:
 		result = Deferred
-	case "processed":
+	case processedString:
 		result = Processed
-	case "lock":
+	case lockString:
 		result = Lock
-	case "Unlock":
+	case unlockString:
 		result = Unlock
 	}
 
