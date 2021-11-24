@@ -42,7 +42,7 @@ const (
 //MessageEvent type
 type MessageEvent struct {
 	ID        uint64       `db:"id"`
-	MessageId uint64       `db:"message_id"`
+	MessageID uint64       `db:"message_id"`
 	TypeDb    string       `db:"type"`
 	Status    EventStatus  `db:"status"`
 	Payload   string       `db:"payload"`
@@ -85,6 +85,7 @@ func (e EventStatus) String() string {
 	}
 }
 
+//Scan implementation of scan interface
 func (e *EventStatus) Scan(value interface{}) error {
 	var result EventStatus
 	switch value {

@@ -115,7 +115,7 @@ func getEventIds(events []model.MessageEvent) []uint64 {
 
 func (r *repo) Add(event model.MessageEvent) error {
 	pbMessage := &pb.Message{
-		Id:       event.MessageId,
+		Id:       event.MessageID,
 		From:     event.Entity.From,
 		To:       event.Entity.To,
 		Text:     event.Entity.Text,
@@ -129,7 +129,7 @@ func (r *repo) Add(event model.MessageEvent) error {
 
 	query, args, insertErr := psql.Insert("messages_events").
 		Columns("message_id", "type", "status", "payload", "updated").
-		Values(event.MessageId, event.TypeDb, event.Status.String(), payload, time.Now()).ToSql()
+		Values(event.MessageID, event.TypeDb, event.Status.String(), payload, time.Now()).ToSql()
 	if insertErr != nil {
 		return errors.Wrap(insertErr, "Error on creating sql query for adding messages")
 	}

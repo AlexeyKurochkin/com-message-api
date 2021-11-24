@@ -10,16 +10,13 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type KafkaSenderConfig struct {
-	brokers []string
-	topic   string
-}
-
+//KafkaSender entity for sending events for kafka
 type KafkaSender struct {
 	producer sarama.SyncProducer
 	topic    string
 }
 
+//NewKafkaSender constructor for kafka sender
 func NewKafkaSender(config config.Kafka) (*KafkaSender, error) {
 	saramaConfig := sarama.NewConfig()
 	saramaConfig.Producer.Partitioner = sarama.NewRandomPartitioner
@@ -38,6 +35,7 @@ func NewKafkaSender(config config.Kafka) (*KafkaSender, error) {
 	return &sender, err
 }
 
+//Send send message to kafka
 func (k KafkaSender) Send(messageEvent *model.MessageEvent) error {
 	payload := messageEvent.Payload
 	pbMessage := &pb.Message{}
@@ -48,7 +46,7 @@ func (k KafkaSender) Send(messageEvent *model.MessageEvent) error {
 
 	pbMessageEvent := &pb.MessageEvent{
 		Id:        messageEvent.ID,
-		MessageId: messageEvent.MessageId,
+		MessageId: messageEvent.MessageID,
 		Type:      messageEvent.TypeDb,
 		Status:    messageEvent.Status.String(),
 		Payload:   pbMessage,

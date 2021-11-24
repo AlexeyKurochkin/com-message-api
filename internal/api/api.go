@@ -68,7 +68,7 @@ func (o *messageAPI) CreateMessageV1(
 	}
 
 	messageEvent := model.MessageEvent{
-		MessageId: newID,
+		MessageID: newID,
 		TypeDb:    model.Created.String(),
 		Status:    model.New,
 		Type:      model.Created,
@@ -193,8 +193,8 @@ func (o *messageAPI) RemoveMessageV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	messageId := req.GetMessageId()
-	success, err := o.repo.RemoveMessage(ctx, messageId)
+	messageID := req.GetMessageId()
+	success, err := o.repo.RemoveMessage(ctx, messageID)
 	if err != nil {
 		log.Error().Err(err).Msg("failed")
 
@@ -210,7 +210,7 @@ func (o *messageAPI) RemoveMessageV1(
 
 	//todo check for error due to nil entity
 	messageEvent := model.MessageEvent{
-		MessageId: messageId,
+		MessageID: messageID,
 		TypeDb:    model.Removed.String(),
 		Status:    model.New,
 		Type:      model.Removed,
@@ -258,7 +258,7 @@ func (o *messageAPI) UpdateMessageV1(
 	}
 
 	messageEvent := model.MessageEvent{
-		MessageId: updatedMessage.ID,
+		MessageID: updatedMessage.ID,
 		TypeDb:    model.Updated.String(),
 		Status:    model.New,
 		Type:      model.Updated,
