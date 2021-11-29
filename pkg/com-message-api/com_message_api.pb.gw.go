@@ -187,6 +187,40 @@ func local_request_ComMessageApiService_RemoveMessageV1_0(ctx context.Context, m
 
 }
 
+func request_ComMessageApiService_UpdateMessageV1_0(ctx context.Context, marshaler runtime.Marshaler, client ComMessageApiServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateMessageV1Request
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.UpdateMessageV1(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_ComMessageApiService_UpdateMessageV1_0(ctx context.Context, marshaler runtime.Marshaler, server ComMessageApiServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateMessageV1Request
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.UpdateMessageV1(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 // RegisterComMessageApiServiceHandlerServer registers the http handlers for service ComMessageApiService to "mux".
 // UnaryRPC     :call ComMessageApiServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -282,6 +316,29 @@ func RegisterComMessageApiServiceHandlerServer(ctx context.Context, mux *runtime
 		}
 
 		forward_ComMessageApiService_RemoveMessageV1_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_ComMessageApiService_UpdateMessageV1_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1", runtime.WithHTTPPathPattern("/v1/messages/update"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_ComMessageApiService_UpdateMessageV1_0(rctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ComMessageApiService_UpdateMessageV1_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -406,6 +463,26 @@ func RegisterComMessageApiServiceHandlerClient(ctx context.Context, mux *runtime
 
 	})
 
+	mux.Handle("POST", pattern_ComMessageApiService_UpdateMessageV1_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1", runtime.WithHTTPPathPattern("/v1/messages/update"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ComMessageApiService_UpdateMessageV1_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ComMessageApiService_UpdateMessageV1_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -417,6 +494,8 @@ var (
 	pattern_ComMessageApiService_ListMessageV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "messages", "list"}, ""))
 
 	pattern_ComMessageApiService_RemoveMessageV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "messages", "remove", "message_id"}, ""))
+
+	pattern_ComMessageApiService_UpdateMessageV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "messages", "update"}, ""))
 )
 
 var (
@@ -427,4 +506,6 @@ var (
 	forward_ComMessageApiService_ListMessageV1_0 = runtime.ForwardResponseMessage
 
 	forward_ComMessageApiService_RemoveMessageV1_0 = runtime.ForwardResponseMessage
+
+	forward_ComMessageApiService_UpdateMessageV1_0 = runtime.ForwardResponseMessage
 )

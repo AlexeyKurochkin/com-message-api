@@ -33,6 +33,10 @@ class ComMessageApiServiceBase(abc.ABC):
     async def RemoveMessageV1(self, stream: 'grpclib.server.Stream[ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Request, ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Response]') -> None:
         pass
 
+    @abc.abstractmethod
+    async def UpdateMessageV1(self, stream: 'grpclib.server.Stream[ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Request, ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Response]') -> None:
+        pass
+
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
             '/ozonmp.com_message_api.v1.ComMessageApiService/CreateMessageV1': grpclib.const.Handler(
@@ -58,6 +62,12 @@ class ComMessageApiServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Request,
                 ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Response,
+            ),
+            '/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1': grpclib.const.Handler(
+                self.UpdateMessageV1,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Request,
+                ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Response,
             ),
         }
 
@@ -88,4 +98,10 @@ class ComMessageApiServiceStub:
             '/ozonmp.com_message_api.v1.ComMessageApiService/RemoveMessageV1',
             ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Request,
             ozonmp.com_message_api.v1.com_message_api_pb2.RemoveMessageV1Response,
+        )
+        self.UpdateMessageV1 = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/ozonmp.com_message_api.v1.ComMessageApiService/UpdateMessageV1',
+            ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Request,
+            ozonmp.com_message_api.v1.com_message_api_pb2.UpdateMessageV1Response,
         )

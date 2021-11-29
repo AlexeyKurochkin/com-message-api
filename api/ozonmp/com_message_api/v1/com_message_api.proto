@@ -38,6 +38,14 @@ service ComMessageApiService {
       get: "/v1/messages/remove/{message_id}"
     };
   }
+
+  // UpdateMessageV1 - Create a message
+  rpc UpdateMessageV1(UpdateMessageV1Request) returns (UpdateMessageV1Response) {
+    option (google.api.http) = {
+      post: "/v1/messages/update"
+      body: "*"
+    };
+  }
 }
 
 message Message {
@@ -46,6 +54,15 @@ message Message {
   string to = 3;
   string text = 4;
   google.protobuf.Timestamp datetime = 5;
+}
+
+message MessageEvent {
+  uint64 id = 1;
+  uint64 message_id = 2;
+  string type = 3;
+  string status = 4;
+  Message payload = 5;
+  google.protobuf.Timestamp updated = 6;
 }
 
 message CreateMessageV1Request {
@@ -80,4 +97,16 @@ message RemoveMessageV1Request {
 
 message RemoveMessageV1Response {
   bool result = 1;
+}
+
+message UpdateMessageV1Request {
+  uint64 message_id = 1 [(validate.rules).uint64.gt = 0];
+  string from = 2 [(validate.rules).string.min_len = 1];
+  string to = 3 [(validate.rules).string.min_len = 1];
+  string text = 4;
+  google.protobuf.Timestamp datetime = 5 [(validate.rules).timestamp.required = true];
+}
+
+message UpdateMessageV1Response {
+  Message value = 1;
 }

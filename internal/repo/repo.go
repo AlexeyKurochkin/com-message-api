@@ -18,6 +18,7 @@ type Repo interface {
 	DescribeMessage(ctx context.Context, messageID uint64) (*model.Message, error)
 	ListMessage(ctx context.Context) ([]model.Message, error)
 	RemoveMessage(ctx context.Context, messageID uint64) (bool, error)
+	UpdateMessage(ctx context.Context, message *model.Message) (*model.Message, error)
 }
 
 type repo struct {
@@ -32,7 +33,7 @@ func NewRepo(db *sqlx.DB, batchSize uint) Repo {
 
 func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint64, error) {
 	query, args, err := psql.Insert("messages").
-		Columns("from", "to", "text", "datetime").
+		Columns("\"from\"", "\"to\"", "text", "datetime").
 		Values(message.From, message.To, message.Text, message.Datetime).
 		Suffix("returning id").
 		ToSql()
@@ -51,7 +52,7 @@ func (r *repo) CreateMessage(ctx context.Context, message *model.Message) (uint6
 }
 
 func (r *repo) DescribeMessage(ctx context.Context, messageID uint64) (*model.Message, error) {
-	query, args, err := psql.Select("id", "from", "to", "text", "datetime", "removed", "created", "updated_at").
+	query, args, err := psql.Select("id", "\"from\"", "\"to\"", "text", "datetime", "removed", "created", "updated").
 		From("messages").
 		Where(sq.Eq{"id": messageID}).ToSql()
 
@@ -103,4 +104,25 @@ func (r *repo) RemoveMessage(ctx context.Context, messageID uint64) (bool, error
 	}
 
 	return true, nil
+}
+
+func (r *repo) UpdateMessage(ctx context.Context, message *model.Message) (*model.Message, error) {
+	query, args, err := psql.Update("messages").
+		Set("\"from\"", message.From).
+		Set("\"to\"", message.To).
+		Set("text", message.Text).
+		Set("datetime", message.Datetime).
+		Where(sq.Eq{"id": message.ID}).
+		ToSql()
+
+	if err != nil {
+		return nil, errors.Wrap(err, "Error on creating UpdateMessage query")
+	}
+
+	_, err = r.db.ExecContext(ctx, query, args...)
+	if err != nil {
+		return nil, errors.Wrap(err, "Error on executing UpdateMessage query")
+	}
+
+	return message, nil
 }

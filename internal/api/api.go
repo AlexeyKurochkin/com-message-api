@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	eventRepo "github.com/ozonmp/com-message-api/internal/app/repo"
 	"github.com/ozonmp/com-message-api/internal/repo"
 
 	pb "github.com/ozonmp/com-message-api/pkg/com-message-api"
@@ -27,12 +28,13 @@ var (
 
 type messageAPI struct {
 	pb.UnimplementedComMessageApiServiceServer
-	repo repo.Repo
+	repo      repo.Repo
+	eventRepo eventRepo.EventRepo
 }
 
 // NewMessageAPI returns api of com-message-api service
-func NewMessageAPI(r repo.Repo) pb.ComMessageApiServiceServer {
-	return &messageAPI{repo: r}
+func NewMessageAPI(r repo.Repo, er eventRepo.EventRepo) pb.ComMessageApiServiceServer {
+	return &messageAPI{repo: r, eventRepo: er}
 }
 
 func (o *messageAPI) CreateMessageV1(
@@ -63,6 +65,18 @@ func (o *messageAPI) CreateMessageV1(
 		log.Error().Err(err).Msg("failed")
 
 		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	messageEvent := model.MessageEvent{
+		MessageID: newID,
+		TypeDb:    model.Created.String(),
+		Status:    model.New,
+		Type:      model.Created,
+		Entity:    message,
+	}
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
 	}
 
 	log.Debug().Msg("success")
@@ -179,7 +193,8 @@ func (o *messageAPI) RemoveMessageV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	success, err := o.repo.RemoveMessage(ctx, req.GetMessageId())
+	messageID := req.GetMessageId()
+	success, err := o.repo.RemoveMessage(ctx, messageID)
 	if err != nil {
 		log.Error().Err(err).Msg("failed")
 
@@ -193,9 +208,71 @@ func (o *messageAPI) RemoveMessageV1(
 		return nil, status.Error(codes.NotFound, "message not found")
 	}
 
+	//todo check for error due to nil entity
+	messageEvent := model.MessageEvent{
+		MessageID: messageID,
+		TypeDb:    model.Removed.String(),
+		Status:    model.New,
+		Type:      model.Removed,
+	}
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
+	}
+
 	log.Debug().Msg("success")
 
 	return &pb.RemoveMessageV1Response{
 		Result: success,
+	}, nil
+}
+
+func (o *messageAPI) UpdateMessageV1(
+	ctx context.Context,
+	req *pb.UpdateMessageV1Request,
+) (*pb.UpdateMessageV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "UpdateMessageV1")
+	defer span.Finish()
+
+	log := logging.GetLoggerAssociatedWithCtx(ctx, "api", "UpdateMessageV1")
+
+	if err := req.Validate(); err != nil {
+		log.Error().Err(err).Msg("invalid argument")
+
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	message := &model.Message{
+		ID:       req.GetMessageId(),
+		From:     req.GetFrom(),
+		To:       req.GetTo(),
+		Text:     req.GetText(),
+		Datetime: req.GetDatetime().AsTime(),
+	}
+
+	updatedMessage, err := o.repo.UpdateMessage(ctx, message)
+	if err != nil {
+		log.Error().Err(err).Msg("update failed")
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	messageEvent := model.MessageEvent{
+		MessageID: updatedMessage.ID,
+		TypeDb:    model.Updated.String(),
+		Status:    model.New,
+		Type:      model.Updated,
+		Entity:    message,
+	}
+
+	err = o.eventRepo.Add(messageEvent)
+	if err != nil {
+		log.Error().Err(err).Msg("Adding event failed")
+	}
+
+	log.Debug().Msg("success")
+
+	return &pb.UpdateMessageV1Response{
+		Value: convertMessageToPbModel(updatedMessage),
 	}, nil
 }

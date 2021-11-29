@@ -46,8 +46,12 @@ kafka:
   topic: "com-message-events"
   groupId: "com-message-api"
   brokers:
-    - "kafka:9092"
-    - "localhost:9094"
+#    - "kafka-1:9095"
+#    - "kafka-2:9096"
+#    - "kafka-3:9097"
+    - "127.0.0.1:9095"
+    - "127.0.0.1:9096"
+    - "127.0.0.1:9097"
 
 graylog:
   url: udp://0.0.0.0:12201

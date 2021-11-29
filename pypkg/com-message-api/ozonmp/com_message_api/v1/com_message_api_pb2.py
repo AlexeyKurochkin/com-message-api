@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='ozonmp.com_message_api.v1',
   syntax='proto3',
   serialized_options=_b('ZEgithub.com/ozonmp/com-message-api/pkg/com-message-api;com_message_api'),
-  serialized_pb=_b('\n/ozonmp/com_message_api/v1/com_message_api.proto\x12\x19ozonmp.com_message_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x89\x01\n\x07Message\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12\x12\n\x04\x66rom\x18\x02 \x01(\tR\x04\x66rom\x12\x0e\n\x02to\x18\x03 \x01(\tR\x02to\x12\x12\n\x04text\x18\x04 \x01(\tR\x04text\x12\x36\n\x08\x64\x61tetime\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x08\x64\x61tetime\"\xa4\x01\n\x16\x43reateMessageV1Request\x12\x1b\n\x04\x66rom\x18\x01 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x04\x66rom\x12\x17\n\x02to\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x02to\x12\x12\n\x04text\x18\x03 \x01(\tR\x04text\x12@\n\x08\x64\x61tetime\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01R\x08\x64\x61tetime\"S\n\x17\x43reateMessageV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"B\n\x18\x44\x65scribeMessageV1Request\x12&\n\nmessage_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\tmessageId\"U\n\x19\x44\x65scribeMessageV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"\x16\n\x14ListMessageV1Request\"Q\n\x15ListMessageV1Response\x12\x38\n\x05value\x18\x01 \x03(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"@\n\x16RemoveMessageV1Request\x12&\n\nmessage_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\tmessageId\"1\n\x17RemoveMessageV1Response\x12\x16\n\x06result\x18\x01 \x01(\x08R\x06result2\x93\x05\n\x14\x43omMessageApiService\x12\x98\x01\n\x0f\x43reateMessageV1\x12\x31.ozonmp.com_message_api.v1.CreateMessageV1Request\x1a\x32.ozonmp.com_message_api.v1.CreateMessageV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/messages/create:\x01*\x12\xaa\x01\n\x11\x44\x65scribeMessageV1\x12\x33.ozonmp.com_message_api.v1.DescribeMessageV1Request\x1a\x34.ozonmp.com_message_api.v1.DescribeMessageV1Response\"*\x82\xd3\xe4\x93\x02$\x12\"/v1/messages/describe/{message_id}\x12\x8d\x01\n\rListMessageV1\x12/.ozonmp.com_message_api.v1.ListMessageV1Request\x1a\x30.ozonmp.com_message_api.v1.ListMessageV1Response\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/messages/list\x12\xa2\x01\n\x0fRemoveMessageV1\x12\x31.ozonmp.com_message_api.v1.RemoveMessageV1Request\x1a\x32.ozonmp.com_message_api.v1.RemoveMessageV1Response\"(\x82\xd3\xe4\x93\x02\"\x12 /v1/messages/remove/{message_id}BGZEgithub.com/ozonmp/com-message-api/pkg/com-message-api;com_message_apib\x06proto3')
+  serialized_pb=_b('\n/ozonmp/com_message_api/v1/com_message_api.proto\x12\x19ozonmp.com_message_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x89\x01\n\x07Message\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12\x12\n\x04\x66rom\x18\x02 \x01(\tR\x04\x66rom\x12\x0e\n\x02to\x18\x03 \x01(\tR\x02to\x12\x12\n\x04text\x18\x04 \x01(\tR\x04text\x12\x36\n\x08\x64\x61tetime\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x08\x64\x61tetime\"\xdd\x01\n\x0cMessageEvent\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12\x1d\n\nmessage_id\x18\x02 \x01(\x04R\tmessageId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n\x06status\x18\x04 \x01(\tR\x06status\x12<\n\x07payload\x18\x05 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x07payload\x12\x34\n\x07updated\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x07updated\"\xa4\x01\n\x16\x43reateMessageV1Request\x12\x1b\n\x04\x66rom\x18\x01 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x04\x66rom\x12\x17\n\x02to\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x02to\x12\x12\n\x04text\x18\x03 \x01(\tR\x04text\x12@\n\x08\x64\x61tetime\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01R\x08\x64\x61tetime\"S\n\x17\x43reateMessageV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"B\n\x18\x44\x65scribeMessageV1Request\x12&\n\nmessage_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\tmessageId\"U\n\x19\x44\x65scribeMessageV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"\x16\n\x14ListMessageV1Request\"Q\n\x15ListMessageV1Response\x12\x38\n\x05value\x18\x01 \x03(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value\"@\n\x16RemoveMessageV1Request\x12&\n\nmessage_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\tmessageId\"1\n\x17RemoveMessageV1Response\x12\x16\n\x06result\x18\x01 \x01(\x08R\x06result\"\xcc\x01\n\x16UpdateMessageV1Request\x12&\n\nmessage_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\tmessageId\x12\x1b\n\x04\x66rom\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x04\x66rom\x12\x17\n\x02to\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\x02to\x12\x12\n\x04text\x18\x04 \x01(\tR\x04text\x12@\n\x08\x64\x61tetime\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01R\x08\x64\x61tetime\"S\n\x17UpdateMessageV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_message_api.v1.MessageR\x05value2\xae\x06\n\x14\x43omMessageApiService\x12\x98\x01\n\x0f\x43reateMessageV1\x12\x31.ozonmp.com_message_api.v1.CreateMessageV1Request\x1a\x32.ozonmp.com_message_api.v1.CreateMessageV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/messages/create:\x01*\x12\xaa\x01\n\x11\x44\x65scribeMessageV1\x12\x33.ozonmp.com_message_api.v1.DescribeMessageV1Request\x1a\x34.ozonmp.com_message_api.v1.DescribeMessageV1Response\"*\x82\xd3\xe4\x93\x02$\x12\"/v1/messages/describe/{message_id}\x12\x8d\x01\n\rListMessageV1\x12/.ozonmp.com_message_api.v1.ListMessageV1Request\x1a\x30.ozonmp.com_message_api.v1.ListMessageV1Response\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/messages/list\x12\xa2\x01\n\x0fRemoveMessageV1\x12\x31.ozonmp.com_message_api.v1.RemoveMessageV1Request\x1a\x32.ozonmp.com_message_api.v1.RemoveMessageV1Response\"(\x82\xd3\xe4\x93\x02\"\x12 /v1/messages/remove/{message_id}\x12\x98\x01\n\x0fUpdateMessageV1\x12\x31.ozonmp.com_message_api.v1.UpdateMessageV1Request\x1a\x32.ozonmp.com_message_api.v1.UpdateMessageV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/messages/update:\x01*BGZEgithub.com/ozonmp/com-message-api/pkg/com-message-api;com_message_apib\x06proto3')
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -88,6 +88,72 @@ _MESSAGE = _descriptor.Descriptor(
 )
 
 
+_MESSAGEEVENT = _descriptor.Descriptor(
+  name='MessageEvent',
+  full_name='ozonmp.com_message_api.v1.MessageEvent',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='ozonmp.com_message_api.v1.MessageEvent.id', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='message_id', full_name='ozonmp.com_message_api.v1.MessageEvent.message_id', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='messageId', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='ozonmp.com_message_api.v1.MessageEvent.type', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='type', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='ozonmp.com_message_api.v1.MessageEvent.status', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='status', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='payload', full_name='ozonmp.com_message_api.v1.MessageEvent.payload', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='payload', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='updated', full_name='ozonmp.com_message_api.v1.MessageEvent.updated', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='updated', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=307,
+  serialized_end=528,
+)
+
+
 _CREATEMESSAGEV1REQUEST = _descriptor.Descriptor(
   name='CreateMessageV1Request',
   full_name='ozonmp.com_message_api.v1.CreateMessageV1Request',
@@ -135,8 +201,8 @@ _CREATEMESSAGEV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=307,
-  serialized_end=471,
+  serialized_start=531,
+  serialized_end=695,
 )
 
 
@@ -166,8 +232,8 @@ _CREATEMESSAGEV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=473,
-  serialized_end=556,
+  serialized_start=697,
+  serialized_end=780,
 )
 
 
@@ -197,8 +263,8 @@ _DESCRIBEMESSAGEV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=558,
-  serialized_end=624,
+  serialized_start=782,
+  serialized_end=848,
 )
 
 
@@ -228,8 +294,8 @@ _DESCRIBEMESSAGEV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=626,
-  serialized_end=711,
+  serialized_start=850,
+  serialized_end=935,
 )
 
 
@@ -252,8 +318,8 @@ _LISTMESSAGEV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=713,
-  serialized_end=735,
+  serialized_start=937,
+  serialized_end=959,
 )
 
 
@@ -283,8 +349,8 @@ _LISTMESSAGEV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=737,
-  serialized_end=818,
+  serialized_start=961,
+  serialized_end=1042,
 )
 
 
@@ -314,8 +380,8 @@ _REMOVEMESSAGEV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=820,
-  serialized_end=884,
+  serialized_start=1044,
+  serialized_end=1108,
 )
 
 
@@ -345,16 +411,111 @@ _REMOVEMESSAGEV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=886,
-  serialized_end=935,
+  serialized_start=1110,
+  serialized_end=1159,
+)
+
+
+_UPDATEMESSAGEV1REQUEST = _descriptor.Descriptor(
+  name='UpdateMessageV1Request',
+  full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='message_id', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request.message_id', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\372B\0042\002 \000'), json_name='messageId', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='from', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request.from', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\372B\004r\002\020\001'), json_name='from', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='to', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request.to', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\372B\004r\002\020\001'), json_name='to', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='text', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request.text', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='text', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='datetime', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Request.datetime', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\372B\005\262\001\002\010\001'), json_name='datetime', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1162,
+  serialized_end=1366,
+)
+
+
+_UPDATEMESSAGEV1RESPONSE = _descriptor.Descriptor(
+  name='UpdateMessageV1Response',
+  full_name='ozonmp.com_message_api.v1.UpdateMessageV1Response',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='ozonmp.com_message_api.v1.UpdateMessageV1Response.value', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='value', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1368,
+  serialized_end=1451,
 )
 
 _MESSAGE.fields_by_name['datetime'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
+_MESSAGEEVENT.fields_by_name['payload'].message_type = _MESSAGE
+_MESSAGEEVENT.fields_by_name['updated'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _CREATEMESSAGEV1REQUEST.fields_by_name['datetime'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _CREATEMESSAGEV1RESPONSE.fields_by_name['value'].message_type = _MESSAGE
 _DESCRIBEMESSAGEV1RESPONSE.fields_by_name['value'].message_type = _MESSAGE
 _LISTMESSAGEV1RESPONSE.fields_by_name['value'].message_type = _MESSAGE
+_UPDATEMESSAGEV1REQUEST.fields_by_name['datetime'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
+_UPDATEMESSAGEV1RESPONSE.fields_by_name['value'].message_type = _MESSAGE
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
+DESCRIPTOR.message_types_by_name['MessageEvent'] = _MESSAGEEVENT
 DESCRIPTOR.message_types_by_name['CreateMessageV1Request'] = _CREATEMESSAGEV1REQUEST
 DESCRIPTOR.message_types_by_name['CreateMessageV1Response'] = _CREATEMESSAGEV1RESPONSE
 DESCRIPTOR.message_types_by_name['DescribeMessageV1Request'] = _DESCRIBEMESSAGEV1REQUEST
@@ -363,6 +524,8 @@ DESCRIPTOR.message_types_by_name['ListMessageV1Request'] = _LISTMESSAGEV1REQUEST
 DESCRIPTOR.message_types_by_name['ListMessageV1Response'] = _LISTMESSAGEV1RESPONSE
 DESCRIPTOR.message_types_by_name['RemoveMessageV1Request'] = _REMOVEMESSAGEV1REQUEST
 DESCRIPTOR.message_types_by_name['RemoveMessageV1Response'] = _REMOVEMESSAGEV1RESPONSE
+DESCRIPTOR.message_types_by_name['UpdateMessageV1Request'] = _UPDATEMESSAGEV1REQUEST
+DESCRIPTOR.message_types_by_name['UpdateMessageV1Response'] = _UPDATEMESSAGEV1RESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Message = _reflection.GeneratedProtocolMessageType('Message', (_message.Message,), dict(
@@ -371,6 +534,13 @@ Message = _reflection.GeneratedProtocolMessageType('Message', (_message.Message,
   # @@protoc_insertion_point(class_scope:ozonmp.com_message_api.v1.Message)
   ))
 _sym_db.RegisterMessage(Message)
+
+MessageEvent = _reflection.GeneratedProtocolMessageType('MessageEvent', (_message.Message,), dict(
+  DESCRIPTOR = _MESSAGEEVENT,
+  __module__ = 'ozonmp.com_message_api.v1.com_message_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_message_api.v1.MessageEvent)
+  ))
+_sym_db.RegisterMessage(MessageEvent)
 
 CreateMessageV1Request = _reflection.GeneratedProtocolMessageType('CreateMessageV1Request', (_message.Message,), dict(
   DESCRIPTOR = _CREATEMESSAGEV1REQUEST,
@@ -428,6 +598,20 @@ RemoveMessageV1Response = _reflection.GeneratedProtocolMessageType('RemoveMessag
   ))
 _sym_db.RegisterMessage(RemoveMessageV1Response)
 
+UpdateMessageV1Request = _reflection.GeneratedProtocolMessageType('UpdateMessageV1Request', (_message.Message,), dict(
+  DESCRIPTOR = _UPDATEMESSAGEV1REQUEST,
+  __module__ = 'ozonmp.com_message_api.v1.com_message_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_message_api.v1.UpdateMessageV1Request)
+  ))
+_sym_db.RegisterMessage(UpdateMessageV1Request)
+
+UpdateMessageV1Response = _reflection.GeneratedProtocolMessageType('UpdateMessageV1Response', (_message.Message,), dict(
+  DESCRIPTOR = _UPDATEMESSAGEV1RESPONSE,
+  __module__ = 'ozonmp.com_message_api.v1.com_message_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_message_api.v1.UpdateMessageV1Response)
+  ))
+_sym_db.RegisterMessage(UpdateMessageV1Response)
+
 
 DESCRIPTOR._options = None
 _CREATEMESSAGEV1REQUEST.fields_by_name['from']._options = None
@@ -435,6 +619,10 @@ _CREATEMESSAGEV1REQUEST.fields_by_name['to']._options = None
 _CREATEMESSAGEV1REQUEST.fields_by_name['datetime']._options = None
 _DESCRIBEMESSAGEV1REQUEST.fields_by_name['message_id']._options = None
 _REMOVEMESSAGEV1REQUEST.fields_by_name['message_id']._options = None
+_UPDATEMESSAGEV1REQUEST.fields_by_name['message_id']._options = None
+_UPDATEMESSAGEV1REQUEST.fields_by_name['from']._options = None
+_UPDATEMESSAGEV1REQUEST.fields_by_name['to']._options = None
+_UPDATEMESSAGEV1REQUEST.fields_by_name['datetime']._options = None
 
 _COMMESSAGEAPISERVICE = _descriptor.ServiceDescriptor(
   name='ComMessageApiService',
@@ -442,8 +630,8 @@ _COMMESSAGEAPISERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=938,
-  serialized_end=1597,
+  serialized_start=1454,
+  serialized_end=2268,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateMessageV1',
@@ -480,6 +668,15 @@ _COMMESSAGEAPISERVICE = _descriptor.ServiceDescriptor(
     input_type=_REMOVEMESSAGEV1REQUEST,
     output_type=_REMOVEMESSAGEV1RESPONSE,
     serialized_options=_b('\202\323\344\223\002\"\022 /v1/messages/remove/{message_id}'),
+  ),
+  _descriptor.MethodDescriptor(
+    name='UpdateMessageV1',
+    full_name='ozonmp.com_message_api.v1.ComMessageApiService.UpdateMessageV1',
+    index=4,
+    containing_service=None,
+    input_type=_UPDATEMESSAGEV1REQUEST,
+    output_type=_UPDATEMESSAGEV1RESPONSE,
+    serialized_options=_b('\202\323\344\223\002\030\"\023/v1/messages/update:\001*'),
   ),
 ])
 _sym_db.RegisterServiceDescriptor(_COMMESSAGEAPISERVICE)
