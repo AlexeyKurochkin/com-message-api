@@ -8,6 +8,7 @@ require (
 	github.com/Masterminds/squirrel v1.5.1
 	github.com/Shopify/sarama v1.30.0
 	github.com/gammazero/workerpool v1.1.2
+	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
@@ -15,9 +16,11 @@ require (
 	github.com/halink0803/zerolog-graylog-hook v0.0.0-20180726102656-e138ca268b12
 	github.com/jackc/pgx/v4 v4.13.0
 	github.com/jmoiron/sqlx v1.3.4
+	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.3
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/ozonmp/com-message-api/pkg/com-message-api v0.0.0-00010101000000-000000000000
+	github.com/ozonmp/omp-bot v0.0.0-20211018082705-df9af7c6ee8c
 	github.com/pkg/errors v0.9.1
 	github.com/pressly/goose/v3 v3.3.1
 	github.com/prometheus/client_golang v1.11.0
@@ -68,6 +71,7 @@ require (
 	github.com/prometheus/common v0.26.0 // indirect
 	github.com/prometheus/procfs v0.6.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
+	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	go.uber.org/atomic v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20210920023735-84f357641f63 // indirect
