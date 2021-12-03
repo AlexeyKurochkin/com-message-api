@@ -35,6 +35,19 @@ services:
       - ./migrations:/root/migrations
       - ./config.yml:/root/config.yml
 
+  retranslator:
+    build:
+      context: .
+      dockerfile: retranslator.dockerfile
+    restart: unless-stopped
+    networks:
+      - ompnw
+    links:
+      - postgres
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
   postgres:
     image: postgres:latest
     healthcheck:
