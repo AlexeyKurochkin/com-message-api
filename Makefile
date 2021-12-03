@@ -114,3 +114,15 @@ build-retranslator: .build-retranslator
 			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
 		" \
 		-o ./bin/retranslator$(shell go env GOEXE) ./cmd/com-message-api/main.go
+
+.PHONY: build-omp-bot
+build-omp-bot: .build-omp-bot
+
+.build-omp-bot:
+	go mod download && CGO_ENABLED=0  go build \
+		-tags='no_mysql no_sqlite3' \
+		-ldflags=" \
+			-X 'github.com/$(SERVICE_PATH)/internal/config.version=$(VERSION)' \
+			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
+		" \
+		-o ./bin/omp-bot$(shell go env GOEXE) ./cmd/omp-bot/main.go
