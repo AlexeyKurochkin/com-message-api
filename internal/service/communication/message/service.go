@@ -11,26 +11,26 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-//MessageService for bot
-type MessageService struct {
+//Service for bot
+type Service struct {
 	client proto.ComMessageApiServiceClient
 }
 
-//NewMessageService constructor for MessageService
-func NewMessageService(cfg *config.Config) *MessageService {
+//NewMessageService constructor for Service
+func NewMessageService(cfg *config.Config) *Service {
 	connection, error := grpc.Dial(fmt.Sprintf("%v:%v", cfg.Grpc.Host, cfg.Grpc.Port), grpc.WithInsecure())
 	if error != nil {
 		log.Error().Err(error).Msg("Error on creating bot message service")
 	}
 
 	client := proto.NewComMessageApiServiceClient(connection)
-	return &MessageService{
+	return &Service{
 		client: client,
 	}
 }
 
 //Describe message by id
-func (d *MessageService) Describe(messageID uint64) (*model.Message, error) {
+func (d *Service) Describe(messageID uint64) (*model.Message, error) {
 	ctx := context.Background()
 	response, error := d.client.DescribeMessageV1(ctx, &proto.DescribeMessageV1Request{MessageId: messageID})
 	if error != nil {
@@ -51,7 +51,7 @@ func convertPbModelToMessage(pbMessage *proto.Message) *model.Message {
 }
 
 //List messages
-func (d *MessageService) List(cursor uint64, limit uint64) ([]*model.Message, error) {
+func (d *Service) List(cursor uint64, limit uint64) ([]*model.Message, error) {
 	ctx := context.Background()
 	response, error := d.client.ListMessageV1(ctx, &proto.ListMessageV1Request{})
 	if error != nil {
@@ -66,7 +66,7 @@ func (d *MessageService) List(cursor uint64, limit uint64) ([]*model.Message, er
 }
 
 //Create new message
-func (d *MessageService) Create(message *model.Message) (uint64, error) {
+func (d *Service) Create(message *model.Message) (uint64, error) {
 	ctx := context.Background()
 	response, error := d.client.CreateMessageV1(ctx, &proto.CreateMessageV1Request{
 		From:     message.From,
@@ -82,7 +82,7 @@ func (d *MessageService) Create(message *model.Message) (uint64, error) {
 }
 
 //Update message
-func (d *MessageService) Update(messageID uint64, message *model.Message) error {
+func (d *Service) Update(messageID uint64, message *model.Message) error {
 	ctx := context.Background()
 	_, error := d.client.UpdateMessageV1(ctx, &proto.UpdateMessageV1Request{
 		MessageId: messageID,
@@ -99,7 +99,7 @@ func (d *MessageService) Update(messageID uint64, message *model.Message) error 
 }
 
 //Remove message by id
-func (d *MessageService) Remove(messageID uint64) (bool, error) {
+func (d *Service) Remove(messageID uint64) (bool, error) {
 	ctx := context.Background()
 	_, error := d.client.RemoveMessageV1(ctx, &proto.RemoveMessageV1Request{MessageId: messageID})
 	if error != nil {

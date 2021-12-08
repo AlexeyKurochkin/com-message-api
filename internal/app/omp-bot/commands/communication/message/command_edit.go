@@ -9,7 +9,7 @@ import (
 )
 
 //Edit handles bot Edit command
-func (m MessageCommander) Edit(inputMsg *tgbotapi.Message) {
+func (m Commander) Edit(inputMsg *tgbotapi.Message) {
 	messageData, error := checkMessageInput(inputMsg.CommandArguments(), editArgumentRowsCount)
 	text := ""
 	if error != nil {

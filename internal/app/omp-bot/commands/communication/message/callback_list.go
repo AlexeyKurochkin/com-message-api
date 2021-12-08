@@ -14,10 +14,10 @@ type callbackListData struct {
 }
 
 //CallbackList handles bot list callback
-func (c *MessageCommander) CallbackList(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (c *Commander) CallbackList(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	parsedData, err := parseCallbackData(callbackPath)
 	if err != nil {
-		log.Printf("MessageCommander.CallbackList: "+
+		log.Printf("Commander.CallbackList: "+
 			"error reading json data for type callbackListData from "+
 			"input string %v - %v", callbackPath.CallbackData, err)
 		return
@@ -30,7 +30,7 @@ func (c *MessageCommander) CallbackList(callback *tgbotapi.CallbackQuery, callba
 	}
 }
 
-func buildMessage(c *MessageCommander, parsedData callbackListData, callback *tgbotapi.CallbackQuery) tgbotapi.MessageConfig {
+func buildMessage(c *Commander, parsedData callbackListData, callback *tgbotapi.CallbackQuery) tgbotapi.MessageConfig {
 	values, boundsError := c.messageService.List(uint64(parsedData.Offset), messagesPerPage)
 	isMessageListEnded := boundsError != nil
 	msg := tgbotapi.NewMessage(callback.Message.Chat.ID, getMessageText(isMessageListEnded, values))

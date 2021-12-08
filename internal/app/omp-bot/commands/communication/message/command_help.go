@@ -6,7 +6,7 @@ import (
 )
 
 //Help bot command
-func (m MessageCommander) Help(inputMsg *tgbotapi.Message) {
+func (m Commander) Help(inputMsg *tgbotapi.Message) {
 	msg := tgbotapi.NewMessage(inputMsg.Chat.ID,
 		"/help__communication__message - help\n"+
 			"/get__communication__message {messageId} - get message\n"+
@@ -25,6 +25,6 @@ func (m MessageCommander) Help(inputMsg *tgbotapi.Message) {
 
 	_, err := m.bot.Send(msg)
 	if err != nil {
-		log.Printf("MessageCommander.Help: error sending reply message to chat - %v", err)
+		log.Printf("Commander.Help: error sending reply message to chat - %v", err)
 	}
 }

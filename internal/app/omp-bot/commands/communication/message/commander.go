@@ -18,23 +18,23 @@ type IMessageCommander interface {
 	Edit(inputMsg *tgbotapi.Message) // return error not implemented
 }
 
-//MessageCommander type for handling bot commands and callbacks
-type MessageCommander struct {
+//Commander type for handling bot commands and callbacks
+type Commander struct {
 	bot            *tgbotapi.BotAPI
 	messageService IMessageService
 }
 
-//NewMessageCommander constructor for MessageCommander
-func NewMessageCommander(bot *tgbotapi.BotAPI, cfg *config.Config) *MessageCommander {
+//NewMessageCommander constructor for Commander
+func NewMessageCommander(bot *tgbotapi.BotAPI, cfg *config.Config) *Commander {
 	messageService := message.NewMessageService(cfg)
-	return &MessageCommander{
+	return &Commander{
 		bot:            bot,
 		messageService: messageService,
 	}
 }
 
 //HandleCallback handle bot callback
-func (m MessageCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (m Commander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	switch callbackPath.CallbackName {
 	case list:
 		m.CallbackList(callback, callbackPath)
@@ -44,7 +44,7 @@ func (m MessageCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callb
 }
 
 //HandleCommand handles bot command
-func (m MessageCommander) HandleCommand(message *tgbotapi.Message, commandPath path.CommandPath) {
+func (m Commander) HandleCommand(message *tgbotapi.Message, commandPath path.CommandPath) {
 	switch commandPath.CommandName {
 	case help:
 		m.Help(message)

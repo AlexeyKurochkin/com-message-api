@@ -1,7 +1,6 @@
 package message
 
 import (
-	"errors"
 	"fmt"
 	"github.com/ozonmp/com-message-api/internal/model"
 	"strings"
@@ -29,7 +28,7 @@ type IMessageService interface {
 func checkMessageInput(commandData string, argumentsRowsCount int) ([]string, error) {
 	messageData := strings.Split(commandData, "\n")
 	if len(messageData) != argumentsRowsCount {
-		return nil, errors.New(fmt.Sprintf("Less then %v rows of values were provided", argumentsRowsCount))
+		return nil, fmt.Errorf("Less then %v rows of values were provided", argumentsRowsCount)
 	}
 
 	return messageData, nil

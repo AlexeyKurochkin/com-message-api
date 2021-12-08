@@ -8,7 +8,7 @@ import (
 )
 
 //Delete handles bot Delete command
-func (m MessageCommander) Delete(inputMsg *tgbotapi.Message) {
+func (m Commander) Delete(inputMsg *tgbotapi.Message) {
 	arguments := inputMsg.CommandArguments()
 	messageID, error := strconv.ParseUint(arguments, 0, 64)
 	text := ""

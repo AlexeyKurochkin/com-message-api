@@ -9,7 +9,7 @@ import (
 )
 
 //New handles bot New command
-func (m MessageCommander) New(inputMsg *tgbotapi.Message) {
+func (m Commander) New(inputMsg *tgbotapi.Message) {
 	messageData, error := checkMessageInput(inputMsg.CommandArguments(), newArgumentRowsCount)
 	text := ""
 	if error != nil {
@@ -26,7 +26,7 @@ func (m MessageCommander) New(inputMsg *tgbotapi.Message) {
 	}
 }
 
-func addNewMessage(messageData []string, m MessageCommander) uint64 {
+func addNewMessage(messageData []string, m Commander) uint64 {
 	message := createMessage(messageData)
 	newIndex, _ := m.messageService.Create(&message)
 	return newIndex

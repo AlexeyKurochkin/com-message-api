@@ -11,24 +11,24 @@ import (
 
 const messageString = "message"
 
-//Commander for handling bot messages
-type Commander interface {
+//ICommander for handling bot messages
+type ICommander interface {
 	HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath)
 	HandleCommand(message *tgbotapi.Message, commandPath path.CommandPath)
 }
 
-//CommunicationCommander subdomain commander
-type CommunicationCommander struct {
+//Commander subdomain commander
+type Commander struct {
 	bot              *tgbotapi.BotAPI
-	messageCommander Commander
+	messageCommander ICommander
 }
 
-//NewCommunicationCommander constructor for CommunicationCommander
+//NewCommunicationCommander constructor for Commander
 func NewCommunicationCommander(
 	bot *tgbotapi.BotAPI,
 	cfg *config.Config,
-) *CommunicationCommander {
-	return &CommunicationCommander{
+) *Commander {
+	return &Commander{
 		bot: bot,
 		// subdomainCommander
 		messageCommander: message.NewMessageCommander(bot, cfg),
@@ -36,21 +36,21 @@ func NewCommunicationCommander(
 }
 
 //HandleCallback handles bot callback
-func (c *CommunicationCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (c *Commander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	switch callbackPath.Subdomain {
 	case messageString:
 		c.messageCommander.HandleCallback(callback, callbackPath)
 	default:
-		log.Printf("CommunicationCommander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
+		log.Printf("Commander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
 	}
 }
 
 //HandleCommand handles bot command
-func (c *CommunicationCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
+func (c *Commander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
 	switch commandPath.Subdomain {
 	case messageString:
 		c.messageCommander.HandleCommand(msg, commandPath)
 	default:
-		log.Printf("CommunicationCommander.HandleCommand: unknown subdomain - #{commandPath.Subdomain}")
+		log.Printf("Commander.HandleCommand: unknown subdomain - #{commandPath.Subdomain}")
 	}
 }

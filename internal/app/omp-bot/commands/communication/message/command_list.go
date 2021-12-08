@@ -8,7 +8,7 @@ import (
 )
 
 //List bot command
-func (m MessageCommander) List(inputMsg *tgbotapi.Message) {
+func (m Commander) List(inputMsg *tgbotapi.Message) {
 	values, _ := m.messageService.List(0, messagesPerPage)
 	text := ""
 	for i := range values {

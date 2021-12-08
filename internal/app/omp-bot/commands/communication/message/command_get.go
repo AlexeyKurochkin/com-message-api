@@ -7,7 +7,7 @@ import (
 )
 
 //Get handles bot Get command
-func (m MessageCommander) Get(inputMsg *tgbotapi.Message) {
+func (m Commander) Get(inputMsg *tgbotapi.Message) {
 	arguments := inputMsg.CommandArguments()
 	index, error := strconv.ParseUint(arguments, 0, 64)
 	text := ""
