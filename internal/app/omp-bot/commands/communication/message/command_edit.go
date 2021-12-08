@@ -4,21 +4,23 @@ import (
 	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/ozonmp/com-message-api/internal/model"
+	"github.com/rs/zerolog/log"
 	"strconv"
 )
 
+//Edit handles bot Edit command
 func (m MessageCommander) Edit(inputMsg *tgbotapi.Message) {
-	messageData, error := CheckMessageInput(inputMsg.CommandArguments(), editArgumentRowsCount)
+	messageData, error := checkMessageInput(inputMsg.CommandArguments(), editArgumentRowsCount)
 	text := ""
 	if error != nil {
 		text = fmt.Sprintf("Less then %v rows of values were provided", editArgumentRowsCount)
 	} else {
-		message := CreateMessage(messageData[1:])
+		message := createMessage(messageData[1:])
 		lookupMessageIndex, error := strconv.ParseUint(messageData[0], 0, 64)
 		if error != nil {
 			text = "Incorrect id provided"
 		} else {
-			error := UpdateMessage(lookupMessageIndex, message, m.messageService)
+			error := updateMessage(lookupMessageIndex, message, m.messageService)
 			if error != nil {
 				text = fmt.Sprintf("Message for update was not found")
 			} else {
@@ -28,9 +30,12 @@ func (m MessageCommander) Edit(inputMsg *tgbotapi.Message) {
 	}
 
 	newBotMessage := tgbotapi.NewMessage(inputMsg.Chat.ID, text)
-	m.bot.Send(newBotMessage)
+	_, err := m.bot.Send(newBotMessage)
+	if err != nil {
+		log.Error().Err(err).Msg("Cannot send message.Command_edit")
+	}
 }
 
-func UpdateMessage(id uint64, updateMessageData model.Message, messageService IMessageService) error {
+func updateMessage(id uint64, updateMessageData model.Message, messageService IMessageService) error {
 	return messageService.Update(id, &updateMessageData)
 }

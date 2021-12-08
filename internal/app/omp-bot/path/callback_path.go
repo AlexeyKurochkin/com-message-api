@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+//CallbackPath callback path
 type CallbackPath struct {
 	Domain       string
 	Subdomain    string
@@ -13,8 +14,10 @@ type CallbackPath struct {
 	CallbackData string
 }
 
+//ErrUnknownCallback unknown callback error
 var ErrUnknownCallback = errors.New("unknown callback")
 
+//ParseCallback parses callback
 func ParseCallback(callbackData string) (CallbackPath, error) {
 	callbackParts := strings.SplitN(callbackData, "__", 4)
 	if len(callbackParts) != 4 {

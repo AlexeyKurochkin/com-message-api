@@ -11,10 +11,12 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+//MessageService for bot
 type MessageService struct {
 	client proto.ComMessageApiServiceClient
 }
 
+//NewMessageService constructor for MessageService
 func NewMessageService(cfg *config.Config) *MessageService {
 	connection, error := grpc.Dial(fmt.Sprintf("%v:%v", cfg.Grpc.Host, cfg.Grpc.Port), grpc.WithInsecure())
 	if error != nil {
@@ -27,6 +29,7 @@ func NewMessageService(cfg *config.Config) *MessageService {
 	}
 }
 
+//Describe message by id
 func (d *MessageService) Describe(messageID uint64) (*model.Message, error) {
 	ctx := context.Background()
 	response, error := d.client.DescribeMessageV1(ctx, &proto.DescribeMessageV1Request{MessageId: messageID})
@@ -34,10 +37,10 @@ func (d *MessageService) Describe(messageID uint64) (*model.Message, error) {
 		return nil, error
 	}
 
-	return ConvertPbModelToMessage(response.Value), nil
+	return convertPbModelToMessage(response.Value), nil
 }
 
-func ConvertPbModelToMessage(pbMessage *proto.Message) *model.Message {
+func convertPbModelToMessage(pbMessage *proto.Message) *model.Message {
 	return &model.Message{
 		ID:       pbMessage.GetId(),
 		From:     pbMessage.GetFrom(),
@@ -47,6 +50,7 @@ func ConvertPbModelToMessage(pbMessage *proto.Message) *model.Message {
 	}
 }
 
+//List messages
 func (d *MessageService) List(cursor uint64, limit uint64) ([]*model.Message, error) {
 	ctx := context.Background()
 	response, error := d.client.ListMessageV1(ctx, &proto.ListMessageV1Request{})
@@ -56,11 +60,12 @@ func (d *MessageService) List(cursor uint64, limit uint64) ([]*model.Message, er
 
 	messages := make([]*model.Message, 0, len(response.Value))
 	for _, message := range response.Value {
-		messages = append(messages, ConvertPbModelToMessage(message))
+		messages = append(messages, convertPbModelToMessage(message))
 	}
 	return messages, nil
 }
 
+//Create new message
 func (d *MessageService) Create(message *model.Message) (uint64, error) {
 	ctx := context.Background()
 	response, error := d.client.CreateMessageV1(ctx, &proto.CreateMessageV1Request{
@@ -76,6 +81,7 @@ func (d *MessageService) Create(message *model.Message) (uint64, error) {
 	return response.Value.GetId(), nil
 }
 
+//Update message
 func (d *MessageService) Update(messageID uint64, message *model.Message) error {
 	ctx := context.Background()
 	_, error := d.client.UpdateMessageV1(ctx, &proto.UpdateMessageV1Request{
@@ -92,6 +98,7 @@ func (d *MessageService) Update(messageID uint64, message *model.Message) error 
 	return nil
 }
 
+//Remove message by id
 func (d *MessageService) Remove(messageID uint64) (bool, error) {
 	ctx := context.Background()
 	_, error := d.client.RemoveMessageV1(ctx, &proto.RemoveMessageV1Request{MessageId: messageID})

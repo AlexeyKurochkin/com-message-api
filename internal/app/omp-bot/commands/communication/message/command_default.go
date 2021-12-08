@@ -5,6 +5,7 @@ import (
 	"log"
 )
 
+//Default bot command
 func (c *MessageCommander) Default(inputMessage *tgbotapi.Message) {
 	log.Printf("[%s] %s", inputMessage.From.UserName, inputMessage.Text)
 

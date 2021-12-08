@@ -9,40 +9,41 @@ import (
 	"log"
 )
 
-type CallbackListData struct {
+type callbackListData struct {
 	Offset uint64 `json:"offset"`
 }
 
+//CallbackList handles bot list callback
 func (c *MessageCommander) CallbackList(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
-	parsedData, err := ParseCallbackData(callbackPath)
+	parsedData, err := parseCallbackData(callbackPath)
 	if err != nil {
 		log.Printf("MessageCommander.CallbackList: "+
-			"error reading json data for type CallbackListData from "+
+			"error reading json data for type callbackListData from "+
 			"input string %v - %v", callbackPath.CallbackData, err)
 		return
 	}
 
-	msg := BuildMessage(c, parsedData, callback)
+	msg := buildMessage(c, parsedData, callback)
 	_, err = c.bot.Send(msg)
 	if err != nil {
 		log.Printf("Error sending reply message to chat - %v", err)
 	}
 }
 
-func BuildMessage(c *MessageCommander, parsedData CallbackListData, callback *tgbotapi.CallbackQuery) tgbotapi.MessageConfig {
+func buildMessage(c *MessageCommander, parsedData callbackListData, callback *tgbotapi.CallbackQuery) tgbotapi.MessageConfig {
 	values, boundsError := c.messageService.List(uint64(parsedData.Offset), messagesPerPage)
 	isMessageListEnded := boundsError != nil
-	msg := tgbotapi.NewMessage(callback.Message.Chat.ID, GetMessageText(isMessageListEnded, values))
+	msg := tgbotapi.NewMessage(callback.Message.Chat.ID, getMessageText(isMessageListEnded, values))
 	if !isMessageListEnded {
-		numericKeyboard := GetNumericKeyboard(parsedData)
+		numericKeyboard := getNumericKeyboard(parsedData)
 		msg.ReplyMarkup = numericKeyboard
 	}
 
 	return msg
 }
 
-func GetNumericKeyboard(parsedData CallbackListData) tgbotapi.InlineKeyboardMarkup {
-	serializedData, _ := json.Marshal(CallbackListData{parsedData.Offset + messagesPerPage})
+func getNumericKeyboard(parsedData callbackListData) tgbotapi.InlineKeyboardMarkup {
+	serializedData, _ := json.Marshal(callbackListData{parsedData.Offset + messagesPerPage})
 	var numericKeyboard = tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
 			tgbotapi.NewInlineKeyboardButtonData("Load more", fmt.Sprintf("communication__message__list__%v", string(serializedData))),
@@ -52,7 +53,7 @@ func GetNumericKeyboard(parsedData CallbackListData) tgbotapi.InlineKeyboardMark
 	return numericKeyboard
 }
 
-func GetMessageText(isNoMoreMessages bool, values []*model.Message) string {
+func getMessageText(isNoMoreMessages bool, values []*model.Message) string {
 	text := ""
 	if isNoMoreMessages {
 		text = "There are no more messages"
@@ -65,8 +66,8 @@ func GetMessageText(isNoMoreMessages bool, values []*model.Message) string {
 	return text
 }
 
-func ParseCallbackData(callbackPath path.CallbackPath) (CallbackListData, error) {
-	parsedData := CallbackListData{}
+func parseCallbackData(callbackPath path.CallbackPath) (callbackListData, error) {
+	parsedData := callbackListData{}
 	err := json.Unmarshal([]byte(callbackPath.CallbackData), &parsedData)
 	return parsedData, err
 }

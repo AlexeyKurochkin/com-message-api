@@ -6,14 +6,17 @@ import (
 	"strings"
 )
 
+//CommandPath command path
 type CommandPath struct {
 	CommandName string
 	Domain      string
 	Subdomain   string
 }
 
+//ErrUnknownCommand unknown command error
 var ErrUnknownCommand = errors.New("unknown command")
 
+//ParseCommand parses command
 func ParseCommand(commandText string) (CommandPath, error) {
 	commandParts := strings.SplitN(commandText, "__", 3)
 	if len(commandParts) != 3 {
@@ -27,6 +30,7 @@ func ParseCommand(commandText string) (CommandPath, error) {
 	}, nil
 }
 
+//WithCommandName sets command name
 func (c CommandPath) WithCommandName(commandName string) CommandPath {
 	c.CommandName = commandName
 

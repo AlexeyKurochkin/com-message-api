@@ -10,7 +10,14 @@ import (
 const newArgumentRowsCount = 3
 const editArgumentRowsCount = 4
 const messagesPerPage uint64 = 5
+const list = "list"
+const help = "help"
+const get = "get"
+const delete = "delete"
+const new = "new"
+const edit = "edit"
 
+//IMessageService interface for working with messages
 type IMessageService interface {
 	Describe(messageID uint64) (*model.Message, error)
 	List(cursor uint64, limit uint64) ([]*model.Message, error)
@@ -19,7 +26,7 @@ type IMessageService interface {
 	Remove(messageID uint64) (bool, error)
 }
 
-func CheckMessageInput(commandData string, argumentsRowsCount int) ([]string, error) {
+func checkMessageInput(commandData string, argumentsRowsCount int) ([]string, error) {
 	messageData := strings.Split(commandData, "\n")
 	if len(messageData) != argumentsRowsCount {
 		return nil, errors.New(fmt.Sprintf("Less then %v rows of values were provided", argumentsRowsCount))

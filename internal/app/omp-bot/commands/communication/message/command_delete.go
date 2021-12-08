@@ -7,20 +7,21 @@ import (
 	"strconv"
 )
 
+//Delete handles bot Delete command
 func (m MessageCommander) Delete(inputMsg *tgbotapi.Message) {
 	arguments := inputMsg.CommandArguments()
-	messageId, error := strconv.ParseUint(arguments, 0, 64)
+	messageID, error := strconv.ParseUint(arguments, 0, 64)
 	text := ""
 	if error != nil {
 		text = fmt.Sprintf("Incorrect message number")
 	} else {
-		successfullyDeleted, error := m.messageService.Remove(messageId)
-		if error != nil {
-			text = fmt.Sprintf("%v", error)
+		successfullyDeleted, serviceError := m.messageService.Remove(messageID)
+		if serviceError != nil {
+			text = fmt.Sprintf("%v", serviceError)
 		}
 
 		if successfullyDeleted {
-			text = fmt.Sprintf("Successfully deleted message with messageId %v", messageId)
+			text = fmt.Sprintf("Successfully deleted message with messageID %v", messageID)
 		}
 	}
 

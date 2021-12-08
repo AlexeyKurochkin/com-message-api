@@ -7,6 +7,7 @@ import (
 	"log"
 )
 
+//List bot command
 func (m MessageCommander) List(inputMsg *tgbotapi.Message) {
 	values, _ := m.messageService.List(0, messagesPerPage)
 	text := ""
@@ -14,7 +15,7 @@ func (m MessageCommander) List(inputMsg *tgbotapi.Message) {
 		text += values[i].String() + "\n\n"
 	}
 
-	serializedData, _ := json.Marshal(CallbackListData{messagesPerPage})
+	serializedData, _ := json.Marshal(callbackListData{messagesPerPage})
 	var numericKeyboard = tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
 			tgbotapi.NewInlineKeyboardButtonData("Load more", fmt.Sprintf("communication__message__list__%v", string(serializedData))),

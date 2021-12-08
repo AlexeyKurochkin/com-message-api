@@ -9,84 +9,34 @@ import (
 	"github.com/ozonmp/com-message-api/internal/app/omp-bot/path"
 )
 
+const communicationString = "communication"
+
+//Commander interface for handling callbacks and commands
 type Commander interface {
 	HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath)
 	HandleCommand(callback *tgbotapi.Message, commandPath path.CommandPath)
 }
 
+//Router for bot subdomains requests
 type Router struct {
 	// bot
-	bot *tgbotapi.BotAPI
-
-	// demoCommander
-	demoCommander Commander
-	// user
-	// access
-	// buy
-	// delivery
-	// recommendation
-	// travel
-	// loyalty
-	// bank
-	// subscription
-	// license
-	// insurance
-	// payment
-	// storage
-	// streaming
-	// business
-	// work
-	// service
-	// exchange
-	// estate
-	// rating
-	// security
-	// cinema
-	// logistic
-	// product
-	// education
-	// communication
+	bot                    *tgbotapi.BotAPI
 	communicationCommander Commander
 }
 
+//NewRouter constructor for Router
 func NewRouter(
 	bot *tgbotapi.BotAPI,
 	cfg *config.Config,
 ) *Router {
 	return &Router{
 		// bot
-		bot: bot,
-		// demoCommander
-		// user
-		// access
-		// buy
-		// delivery
-		// recommendation
-		// travel
-		// loyalty
-		// bank
-		// subscription
-		// license
-		// insurance
-		// payment
-		// storage
-		// streaming
-		// business
-		// work
-		// service
-		// exchange
-		// estate
-		// rating
-		// security
-		// cinema
-		// logistic
-		// product
-		// education
-		// communication
+		bot:                    bot,
 		communicationCommander: communication.NewCommunicationCommander(bot, cfg),
 	}
 }
 
+//HandleUpdate handles bot update
 func (c *Router) HandleUpdate(update tgbotapi.Update) {
 	defer func() {
 		if panicValue := recover(); panicValue != nil {
@@ -110,59 +60,7 @@ func (c *Router) handleCallback(callback *tgbotapi.CallbackQuery) {
 	}
 
 	switch callbackPath.Domain {
-	case "demo":
-		c.demoCommander.HandleCallback(callback, callbackPath)
-	case "user":
-		break
-	case "access":
-		break
-	case "buy":
-		break
-	case "delivery":
-		break
-	case "recommendation":
-		break
-	case "travel":
-		break
-	case "loyalty":
-		break
-	case "bank":
-		break
-	case "subscription":
-		break
-	case "license":
-		break
-	case "insurance":
-		break
-	case "payment":
-		break
-	case "storage":
-		break
-	case "streaming":
-		break
-	case "business":
-		break
-	case "work":
-		break
-	case "service":
-		break
-	case "exchange":
-		break
-	case "estate":
-		break
-	case "rating":
-		break
-	case "security":
-		break
-	case "cinema":
-		break
-	case "logistic":
-		break
-	case "product":
-		break
-	case "education":
-		break
-	case "communication":
+	case communicationString:
 		c.communicationCommander.HandleCallback(callback, callbackPath)
 	default:
 		log.Printf("Router.handleCallback: unknown domain - %s", callbackPath.Domain)
@@ -183,59 +81,7 @@ func (c *Router) handleMessage(msg *tgbotapi.Message) {
 	}
 
 	switch commandPath.Domain {
-	case "demo":
-		c.demoCommander.HandleCommand(msg, commandPath)
-	case "user":
-		break
-	case "access":
-		break
-	case "buy":
-		break
-	case "delivery":
-		break
-	case "recommendation":
-		break
-	case "travel":
-		break
-	case "loyalty":
-		break
-	case "bank":
-		break
-	case "subscription":
-		break
-	case "license":
-		break
-	case "insurance":
-		break
-	case "payment":
-		break
-	case "storage":
-		break
-	case "streaming":
-		break
-	case "business":
-		break
-	case "work":
-		break
-	case "service":
-		break
-	case "exchange":
-		break
-	case "estate":
-		break
-	case "rating":
-		break
-	case "security":
-		break
-	case "cinema":
-		break
-	case "logistic":
-		break
-	case "product":
-		break
-	case "education":
-		break
-	case "communication":
+	case communicationString:
 		c.communicationCommander.HandleCommand(msg, commandPath)
 	default:
 		log.Printf("Router.handleCallback: unknown domain - %s", commandPath.Domain)

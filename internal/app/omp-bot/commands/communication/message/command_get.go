@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+//Get handles bot Get command
 func (m MessageCommander) Get(inputMsg *tgbotapi.Message) {
 	arguments := inputMsg.CommandArguments()
 	index, error := strconv.ParseUint(arguments, 0, 64)
@@ -13,8 +14,8 @@ func (m MessageCommander) Get(inputMsg *tgbotapi.Message) {
 	if error != nil {
 		text = "Wrong id provided"
 	} else {
-		message, error := m.messageService.Describe(index)
-		if error != nil {
+		message, serviceError := m.messageService.Describe(index)
+		if serviceError != nil {
 			text = "Message with such id does not exist"
 		} else {
 			text = message.String()
