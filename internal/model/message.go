@@ -113,3 +113,7 @@ func (e *EventStatus) Scan(value interface{}) error {
 	*e = result
 	return nil
 }
+
+func (m Message) String() string {
+	return fmt.Sprintf("ID: %v\nMessage: \nFrom: %v \nTo: %v \nText: %v \nDate: %v", m.ID, m.From, m.To, m.Text, m.Datetime.Format("2006-01-02"))
+}

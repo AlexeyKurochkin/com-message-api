@@ -35,6 +35,33 @@ services:
       - ./migrations:/root/migrations
       - ./config.yml:/root/config.yml
 
+  retranslator:
+    build:
+      context: .
+      dockerfile: retranslator.dockerfile
+    restart: unless-stopped
+    networks:
+      - ompnw
+    links:
+      - postgres
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
+  omp-bot:
+    build:
+      context: .
+      dockerfile: omp-bot.dockerfile
+    restart: unless-stopped
+    networks:
+      - ompnw
+#    links:
+#      - com-message-api
+    ports:
+      - 40001:40001 # Debug port
+    volumes:
+      - ./.env:/root/.env
+
   postgres:
     image: postgres:latest
     healthcheck:
